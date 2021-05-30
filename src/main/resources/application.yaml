@@ -1,7 +1,33 @@
 spring:
+    application.name: pg-index-health-spring-boot-demo
+    main.banner-mode: console
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.yaml
 
 logging:
     level:
-        type: DEBUG
+        root: INFO
+        org.springframework: INFO
+
+server:
+    port: 8080
+    servlet:
+        context-path: /api
+
+management:
+    endpoints:
+        enabled-by-default: false
+        web.exposure.include: health,prometheus,liquibase
+    endpoint:
+        health:
+            enabled: true
+        prometheus:
+            enabled: true
+        liquibase:
+            enabled: true
+    metrics:
+        distribution:
+            percentiles-histogram:
+                "[http.server.requests]": true
+        export:
+            prometheus.enabled: true

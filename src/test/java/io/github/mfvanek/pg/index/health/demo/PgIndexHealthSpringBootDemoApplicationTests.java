@@ -1,10 +1,9 @@
 package io.github.mfvanek.pg.index.health.demo;
 
+import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class PgIndexHealthSpringBootDemoApplicationTests {
+class PgIndexHealthSpringBootDemoApplicationTests extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void contextLoads() {
