@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+    id 'org.springframework.boot' version '2.6.3'
 }
 
 group = 'io.github.mfvanek'
@@ -17,16 +18,16 @@ repositories {
 	mavenCentral()
 }
 
-def testContainersVersion = '1.15.3'
-def lombokVersion = '1.18.20'
-def springBootVersion = '2.4.3'
+def testContainersVersion = '1.16.3'
+def lombokVersion = '1.18.22'
+def springBootVersion = '2.6.3'
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.7.0'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
 	implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
 	implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
 	implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-	implementation 'org.liquibase:liquibase-core:4.3.5'
-    implementation 'org.postgresql:postgresql:42.2.20'
+	implementation 'org.liquibase:liquibase-core:4.7.1'
+    implementation 'org.postgresql:postgresql:42.3.2'
     implementation "org.testcontainers:testcontainers:$testContainersVersion"
     implementation "org.testcontainers:postgresql:$testContainersVersion"
 
@@ -35,9 +36,13 @@ dependencies {
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 	testImplementation "org.testcontainers:junit-jupiter:$testContainersVersion"
-    testImplementation 'io.github.mfvanek:pg-index-health-test-starter:0.3.1.1'
+    testImplementation 'io.github.mfvanek:pg-index-health-test-starter:0.3.2'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+springBoot {
+    buildInfo()
 }

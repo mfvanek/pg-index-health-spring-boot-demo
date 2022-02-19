@@ -1,6 +1,6 @@
 spring:
     application.name: pg-index-health-spring-boot-demo
-    main.banner-mode: console
+    main.banner-mode: off
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.yaml
 
@@ -15,15 +15,27 @@ server:
         context-path: /api
 
 management:
+    server:
+        port: 8081
     endpoints:
         enabled-by-default: false
-        web.exposure.include: health,prometheus,liquibase
+        web.exposure.include: health,prometheus,liquibase,info,threaddump,heapdump
     endpoint:
         health:
             enabled: true
+            probes.enabled: true
+            group:
+                readiness:
+                    include: readinessState,db
         prometheus:
             enabled: true
         liquibase:
+            enabled: true
+        info:
+            enabled: true
+        threaddump:
+            enabled: true
+        heapdump:
             enabled: true
     metrics:
         distribution:
@@ -31,3 +43,8 @@ management:
                 "[http.server.requests]": true
         export:
             prometheus.enabled: true
+    health:
+        livenessstate:
+            enabled: true
+        readinessstate:
+            enabled: true
