@@ -23,13 +23,16 @@ repositories {
 def testContainersVersion = '1.16.3'
 def lombokVersion = '1.18.22'
 def springBootVersion = '2.6.3'
+def springdocVersion = '1.6.6'
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
 	implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
 	implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
 	implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-	implementation 'org.liquibase:liquibase-core:4.7.1'
+    implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
+    implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
+    implementation 'org.liquibase:liquibase-core:4.7.1'
     implementation 'org.postgresql:postgresql:42.3.2'
     implementation "org.testcontainers:testcontainers:$testContainersVersion"
     implementation "org.testcontainers:postgresql:$testContainersVersion"
