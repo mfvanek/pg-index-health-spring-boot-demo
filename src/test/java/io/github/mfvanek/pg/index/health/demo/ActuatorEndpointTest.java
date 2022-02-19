@@ -8,13 +8,19 @@
 package io.github.mfvanek.pg.index.health.demo;
 
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.web.server.LocalManagementPort;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,7 +35,17 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     private static final String ACTUATOR_URL_TEMPLATE = "http://localhost:%s/actuator/%s";
+
+    @BeforeEach
+    void setUp() {
+        final List<ClientHttpRequestInterceptor> interceptors = restTemplate.getRestTemplate().getInterceptors();
+        interceptors.add(new BasicAuthenticationInterceptor(
+                securityProperties.getUser().getName(), securityProperties.getUser().getPassword()));
+    }
 
     @Test
     void actuatorShouldBeRunOnSeparatePort() {
@@ -54,6 +70,26 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody()).contains("{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}");
+    }
+
+    @Test
+    void healthLivenessEndpointShouldReturnStatusUp() {
+        final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "health/liveness");
+        final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody()).contains("{\"status\":\"UP\"}");
+    }
+
+    @Test
+    void healthReadinessEndpointShouldReturnStatusUp() {
+        final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "health/readiness");
+        final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody()).contains("{\"status\":\"UP\"}");
     }
 
     @Test

@@ -3,6 +3,10 @@ spring:
     main.banner-mode: off
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.yaml
+    security:
+        user:
+            name: demouser
+            password: testpwd123
 
 logging:
     level:
