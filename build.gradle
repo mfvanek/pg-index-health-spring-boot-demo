@@ -1,6 +1,8 @@
 plugins {
 	id 'java'
     id 'org.springframework.boot' version '2.6.3'
+    id 'com.github.spotbugs' version '5.0.6'
+    id 'checkstyle'
 }
 
 group = 'io.github.mfvanek'
@@ -45,4 +47,18 @@ test {
 
 springBoot {
     buildInfo()
+}
+
+checkstyle {
+    toolVersion '8.45'
+    configFile file("config/checkstyle/checkstyle.xml")
+    ignoreFailures = false
+    maxWarnings = 0
+    maxErrors = 0
+}
+checkstyleMain {
+    source ='src/main/java'
+}
+checkstyleTest {
+    source ='src/test/java'
 }
