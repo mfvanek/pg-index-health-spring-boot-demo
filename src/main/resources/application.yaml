@@ -16,14 +16,14 @@ logging:
 server:
     port: 8080
     servlet:
-        context-path: /api
+        context-path: /
 
 management:
     server:
         port: 8081
     endpoints:
         enabled-by-default: false
-        web.exposure.include: health,prometheus,liquibase,info,threaddump,heapdump
+        web.exposure.include: health,prometheus,liquibase,info,threaddump,heapdump,openapi,swaggerui
     endpoint:
         health:
             enabled: true
@@ -52,3 +52,7 @@ management:
             enabled: true
         readinessstate:
             enabled: true
+
+springdoc:
+    show-actuator: true
+    use-management-port: true
