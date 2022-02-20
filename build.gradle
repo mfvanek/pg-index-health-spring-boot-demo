@@ -24,6 +24,7 @@ def testContainersVersion = '1.16.3'
 def lombokVersion = '1.18.22'
 def springBootVersion = '2.6.3'
 def springdocVersion = '1.6.6'
+def pgihVersion = '0.3.2'
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
 	implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
@@ -36,13 +37,15 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.3.2'
     implementation "org.testcontainers:testcontainers:$testContainersVersion"
     implementation "org.testcontainers:postgresql:$testContainersVersion"
+    implementation "io.github.mfvanek:pg-index-health:$pgihVersion"
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
 	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 	testImplementation "org.testcontainers:junit-jupiter:$testContainersVersion"
-    testImplementation 'io.github.mfvanek:pg-index-health-test-starter:0.3.2'
+    testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
 }
 
 test {
@@ -65,4 +68,19 @@ checkstyleMain {
 }
 checkstyleTest {
     source ='src/test/java'
+}
+
+spotbugsMain {
+    reports {
+        html.enabled = true
+    }
+}
+spotbugsTest {
+    reports {
+        html.enabled = true
+    }
+}
+spotbugs {
+    showProgress = true
+    excludeFilter = file("config/spotbugs/exclude.xml")
 }

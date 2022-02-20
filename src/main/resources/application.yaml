@@ -1,4 +1,5 @@
 spring:
+    profiles.active: dev
     application.name: pg-index-health-spring-boot-demo
     main.banner-mode: off
     liquibase:
