@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.3'
     id 'com.github.spotbugs' version '5.0.6'
     id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'io.github.mfvanek'
@@ -56,6 +57,8 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    finalizedBy jacocoTestCoverageVerification
 }
 
 springBoot {
@@ -90,3 +93,44 @@ spotbugs {
     showProgress = true
     excludeFilter = file("config/spotbugs/exclude.xml")
 }
+
+//test {
+//    jacoco {
+//        excludes += ['**/PgIndexHealthSpringBootDemoApplication**']
+//    }
+//}
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+jacocoTestCoverageVerification {
+    dependsOn test
+    violationRules {
+        rule {
+            limit {
+                counter = 'CLASS'
+                value = 'MISSEDCOUNT'
+                maximum = 0
+            }
+        }
+        rule {
+            limit {
+                counter = 'METHOD'
+                value = 'MISSEDCOUNT'
+                maximum = 8
+            }
+        }
+        rule {
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.71
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
