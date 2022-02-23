@@ -10,41 +10,18 @@ package io.github.mfvanek.pg.index.health.demo;
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.web.server.LocalManagementPort;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.support.BasicAuthenticationInterceptor;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
 
-    @LocalServerPort
-    private int port;
-
-    @LocalManagementPort
-    private int actuatorPort;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Autowired
-    private SecurityProperties securityProperties;
-
     private static final String ACTUATOR_URL_TEMPLATE = "http://localhost:%s/actuator/%s";
 
     @BeforeEach
     void setUp() {
-        final List<ClientHttpRequestInterceptor> interceptors = restTemplate.getRestTemplate().getInterceptors();
-        interceptors.add(new BasicAuthenticationInterceptor(
-                securityProperties.getUser().getName(), securityProperties.getUser().getPassword()));
+        setUpBasicAuth();
     }
 
     @Test

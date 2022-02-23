@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.Collection;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,7 +27,7 @@ public class DbConfigurationController {
     private final DatabaseManagement databaseManagement;
 
     @GetMapping
-    public ResponseEntity<Set<PgParam>> getParamsWithDefaultValues() {
+    public ResponseEntity<Collection<PgParam>> getParamsWithDefaultValues() {
         final ServerSpecification serverSpecification = ServerSpecification.builder()
                 .withCpuCores(Runtime.getRuntime().availableProcessors())
                 .withMemoryAmount(8, MemoryUnit.GB)

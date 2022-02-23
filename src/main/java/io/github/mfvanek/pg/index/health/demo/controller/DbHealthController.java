@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Collection;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,7 +27,7 @@ public class DbHealthController {
     private final HealthLogger healthLogger;
 
     @GetMapping
-    public ResponseEntity<List<String>> collectHealthData() {
+    public ResponseEntity<Collection<String>> collectHealthData() {
         final Exclusions exclusions = Exclusions.builder()
                 .withIndexSizeThreshold(1, MemoryUnit.MB)
                 .withTableSizeThreshold(1, MemoryUnit.MB)

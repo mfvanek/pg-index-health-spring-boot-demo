@@ -23,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.startsWith;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -43,23 +40,23 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     @DisplayName("Always check PostgreSQL version in your tests")
     void checkPostgresVersion() {
         final String pgVersion = jdbcTemplate.queryForObject("select version();", String.class);
-        assertThat(pgVersion, startsWith("PostgreSQL 13.2"));
+        assertThat(pgVersion).startsWith("PostgreSQL 13.2");
     }
 
     @Test
     void getInvalidIndexesShouldReturnNothingForPublicSchema() {
         final List<Index> invalidIndexes = indexesMaintenance.getInvalidIndexes();
 
-        assertNotNull(invalidIndexes);
-        assertEquals(0, invalidIndexes.size());
+        assertThat(invalidIndexes).isNotNull();
+        assertThat(invalidIndexes).isEmpty();
     }
 
     @Test
     void getInvalidIndexesShouldReturnOneRowForDemoSchema() {
         final List<Index> invalidIndexes = indexesMaintenance.getInvalidIndexes(demoSchema);
 
-        assertNotNull(invalidIndexes);
-        assertEquals(1, invalidIndexes.size());
+        assertThat(invalidIndexes).isNotNull();
+        assertThat(invalidIndexes).hasSize(1);
         // HOW TO FIX: drop index concurrently, fix data in table, create index concurrently again
         assertEquals("demo.i_buyer_email", invalidIndexes.get(0).getIndexName());
     }
@@ -79,8 +76,8 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
         assertNotNull(duplicatedIndexes);
         assertEquals(1, duplicatedIndexes.size());
         // HOW TO FIX: do not manually create index for column with unique constraint
-        assertThat(duplicatedIndexes.get(0).getIndexNames(), containsInAnyOrder(
-                "demo.i_order_item_sku_order_id_unique", "demo.order_item_sku_order_id_key"));
+        assertThat(duplicatedIndexes.get(0).getIndexNames()).containsExactlyInAnyOrder(
+                "demo.i_order_item_sku_order_id_unique", "demo.order_item_sku_order_id_key");
     }
 
     @Test
@@ -98,10 +95,10 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
         assertNotNull(intersectedIndexes);
         assertEquals(2, intersectedIndexes.size());
         // HOW TO FIX: consider using an index with a different column order or just delete unnecessary indexes
-        assertThat(intersectedIndexes.get(1).getIndexNames(), contains(
-                "demo.buyer_pkey", "demo.i_buyer_id_phone"));
-        assertThat(intersectedIndexes.get(0).getIndexNames(), contains(
-                "demo.i_buyer_first_name", "demo.i_buyer_names"));
+        assertThat(intersectedIndexes.get(1).getIndexNames()).contains(
+                "demo.buyer_pkey", "demo.i_buyer_id_phone");
+        assertThat(intersectedIndexes.get(0).getIndexNames()).contains(
+                "demo.i_buyer_first_name", "demo.i_buyer_names");
     }
 
     @Test
@@ -121,8 +118,8 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
         // HOW TO FIX: create indexes on columns under foreign key constraint
         assertThat(foreignKeys.stream()
                 .map(ForeignKey::getConstraintName)
-                .collect(Collectors.toList()), containsInAnyOrder(
-                "order_item_order_id_fkey", "orders_buyer_id_fkey", "payment_order_id_fkey"));
+                .collect(Collectors.toList())).containsExactlyInAnyOrder(
+                "order_item_order_id_fkey", "orders_buyer_id_fkey", "payment_order_id_fkey");
     }
 
     @Test

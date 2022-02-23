@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'io.github.mfvanek'
-version = '0.0.1-SNAPSHOT'
+version = '0.4.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
@@ -20,11 +20,16 @@ repositories {
 	mavenCentral()
 }
 
+configurations.all {
+    exclude group: 'org.hamcrest'
+}
+
 def testContainersVersion = '1.16.3'
 def lombokVersion = '1.18.22'
 def springBootVersion = '2.6.3'
 def springdocVersion = '1.6.6'
-def pgihVersion = '0.4.0-SNAPSHOT'
+def pgihVersion = '0.4.0'
+
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
 	implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
@@ -46,6 +51,7 @@ dependencies {
 	testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 	testImplementation "org.testcontainers:junit-jupiter:$testContainersVersion"
     testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
+    testImplementation 'org.assertj:assertj-core:3.22.0'
 }
 
 test {
