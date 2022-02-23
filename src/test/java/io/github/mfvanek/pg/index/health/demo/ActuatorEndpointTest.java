@@ -89,4 +89,12 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody()).contains("\"version\":");
     }
+
+    @Test
+    void swaggerUiEndpointShouldReturnOk() {
+        final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "swaggerui");
+        final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
+
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+    }
 }

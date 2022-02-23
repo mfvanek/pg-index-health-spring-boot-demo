@@ -53,6 +53,7 @@ dependencies {
 	testImplementation "org.testcontainers:junit-jupiter:$testContainersVersion"
     testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
     testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
 }
 
 test {
@@ -94,11 +95,6 @@ spotbugs {
     excludeFilter = file("config/spotbugs/exclude.xml")
 }
 
-//test {
-//    jacoco {
-//        excludes += ['**/PgIndexHealthSpringBootDemoApplication**']
-//    }
-//}
 jacocoTestReport {
     reports {
         xml.enabled true
