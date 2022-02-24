@@ -7,36 +7,32 @@
 
 package io.github.mfvanek.pg.index.health.demo.controller;
 
-import io.github.mfvanek.pg.connection.HighAvailabilityPgConnection;
+import io.github.mfvanek.pg.common.management.DatabaseManagement;
 import io.github.mfvanek.pg.model.MemoryUnit;
 import io.github.mfvanek.pg.settings.PgParam;
 import io.github.mfvanek.pg.settings.ServerSpecification;
-import io.github.mfvanek.pg.settings.maintenance.ConfigurationMaintenanceOnHost;
-import io.github.mfvanek.pg.settings.maintenance.ConfigurationMaintenanceOnHostImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.Collection;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/db/configuration")
 public class DbConfigurationController {
 
-    private final HighAvailabilityPgConnection highAvailabilityPgConnection;
+    private final DatabaseManagement databaseManagement;
 
     @GetMapping
-    public ResponseEntity<Set<PgParam>> getParamsWithDefaultValues() {
-        final ConfigurationMaintenanceOnHost configurationMaintenance =
-                new ConfigurationMaintenanceOnHostImpl(highAvailabilityPgConnection.getConnectionToPrimary());
+    public ResponseEntity<Collection<PgParam>> getParamsWithDefaultValues() {
         final ServerSpecification serverSpecification = ServerSpecification.builder()
                 .withCpuCores(Runtime.getRuntime().availableProcessors())
-                .withMemoryAmount(16, MemoryUnit.GB)
+                .withMemoryAmount(8, MemoryUnit.GB)
                 .withSSD()
                 .build();
-        return ResponseEntity.ok(configurationMaintenance.getParamsWithDefaultValues(serverSpecification));
+        return ResponseEntity.ok(databaseManagement.getParamsWithDefaultValues(serverSpecification));
     }
 }

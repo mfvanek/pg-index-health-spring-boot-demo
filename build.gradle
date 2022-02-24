@@ -3,10 +3,11 @@ plugins {
     id 'org.springframework.boot' version '2.6.3'
     id 'com.github.spotbugs' version '5.0.6'
     id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'io.github.mfvanek'
-version = '0.0.1-SNAPSHOT'
+version = '0.4.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
@@ -20,11 +21,16 @@ repositories {
 	mavenCentral()
 }
 
+configurations.all {
+    exclude group: 'org.hamcrest'
+}
+
 def testContainersVersion = '1.16.3'
 def lombokVersion = '1.18.22'
 def springBootVersion = '2.6.3'
 def springdocVersion = '1.6.6'
-def pgihVersion = '0.3.2'
+def pgihVersion = '0.4.0'
+
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
 	implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
@@ -46,10 +52,14 @@ dependencies {
 	testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 	testImplementation "org.testcontainers:junit-jupiter:$testContainersVersion"
     testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
 }
 
 test {
 	useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    finalizedBy jacocoTestCoverageVerification
 }
 
 springBoot {
@@ -84,3 +94,39 @@ spotbugs {
     showProgress = true
     excludeFilter = file("config/spotbugs/exclude.xml")
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+jacocoTestCoverageVerification {
+    dependsOn test
+    violationRules {
+        rule {
+            limit {
+                counter = 'CLASS'
+                value = 'MISSEDCOUNT'
+                maximum = 0
+            }
+        }
+        rule {
+            limit {
+                counter = 'METHOD'
+                value = 'MISSEDCOUNT'
+                maximum = 7
+            }
+        }
+        rule {
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification

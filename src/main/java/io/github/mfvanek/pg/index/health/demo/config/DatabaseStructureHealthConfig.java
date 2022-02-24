@@ -10,6 +10,7 @@ package io.github.mfvanek.pg.index.health.demo.config;
 import io.github.mfvanek.pg.common.health.DatabaseHealthFactory;
 import io.github.mfvanek.pg.common.health.DatabaseHealthFactoryImpl;
 import io.github.mfvanek.pg.common.health.logger.HealthLogger;
+import io.github.mfvanek.pg.common.health.logger.StandardHealthLogger;
 import io.github.mfvanek.pg.common.maintenance.MaintenanceFactoryImpl;
 import io.github.mfvanek.pg.common.management.DatabaseManagement;
 import io.github.mfvanek.pg.common.management.DatabaseManagementImpl;
@@ -48,7 +49,7 @@ public class DatabaseStructureHealthConfig {
     public HealthLogger healthLogger(@Nonnull final ConnectionCredentials connectionCredentials,
                                      @Nonnull final HighAvailabilityPgConnectionFactory highAvailabilityPgConnectionFactory,
                                      @Nonnull final DatabaseHealthFactory databaseHealthFactory) {
-        return new CustomHealthLogger(connectionCredentials, highAvailabilityPgConnectionFactory, databaseHealthFactory);
+        return new StandardHealthLogger(connectionCredentials, highAvailabilityPgConnectionFactory, databaseHealthFactory);
     }
 
     @Bean
