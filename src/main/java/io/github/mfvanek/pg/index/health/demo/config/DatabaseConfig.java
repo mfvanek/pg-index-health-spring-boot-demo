@@ -17,7 +17,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 
 import javax.sql.DataSource;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class DatabaseConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
