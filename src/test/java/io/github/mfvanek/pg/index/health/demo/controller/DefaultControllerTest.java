@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
@@ -26,8 +28,9 @@ class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     void rootPageShouldRedirectToSwaggerUi() {
         final String url = String.format("http://localhost:%s/", port);
         final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
-
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
-        // TODO add checks
+        final URI location = response.getHeaders().getLocation();
+        assertThat(location).isNotNull();
+        assertThat(location.getRawPath()).isEqualTo("/actuator/swaggerui");
     }
 }

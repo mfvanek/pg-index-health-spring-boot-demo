@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
@@ -91,10 +93,12 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
     }
 
     @Test
-    void swaggerUiEndpointShouldReturnOk() {
+    void swaggerUiEndpointShouldReturnFound() {
         final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "swaggerui");
         final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
-
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
+        final URI location = response.getHeaders().getLocation();
+        assertThat(location).isNotNull();
+        assertThat(location.toString()).isEqualTo("/actuator/swagger-ui/index.html");
     }
 }
