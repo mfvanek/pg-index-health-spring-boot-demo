@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
 
@@ -46,35 +44,38 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     @Test
     void getInvalidIndexesShouldReturnNothingForPublicSchema() {
         final List<Index> invalidIndexes = indexesMaintenance.getInvalidIndexes();
-
-        assertThat(invalidIndexes).isNotNull();
-        assertThat(invalidIndexes).isEmpty();
+        assertThat(invalidIndexes)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test
     void getInvalidIndexesShouldReturnOneRowForDemoSchema() {
         final List<Index> invalidIndexes = indexesMaintenance.getInvalidIndexes(demoSchema);
 
-        assertThat(invalidIndexes).isNotNull();
-        assertThat(invalidIndexes).hasSize(1);
+        assertThat(invalidIndexes)
+                .isNotNull()
+                .hasSize(1);
         // HOW TO FIX: drop index concurrently, fix data in table, create index concurrently again
-        assertEquals("demo.i_buyer_email", invalidIndexes.get(0).getIndexName());
+        assertThat(invalidIndexes.get(0).getIndexName()).isEqualTo("demo.i_buyer_email");
     }
 
     @Test
     void getDuplicatedIndexesShouldReturnNothingForPublicSchema() {
         final List<DuplicatedIndexes> duplicatedIndexes = indexesMaintenance.getDuplicatedIndexes();
 
-        assertNotNull(duplicatedIndexes);
-        assertEquals(0, duplicatedIndexes.size());
+        assertThat(duplicatedIndexes)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test
     void getDuplicatedIndexesShouldReturnOneRowForDemoSchema() {
         final List<DuplicatedIndexes> duplicatedIndexes = indexesMaintenance.getDuplicatedIndexes(demoSchema);
 
-        assertNotNull(duplicatedIndexes);
-        assertEquals(1, duplicatedIndexes.size());
+        assertThat(duplicatedIndexes)
+                .isNotNull()
+                .hasSize(1);
         // HOW TO FIX: do not manually create index for column with unique constraint
         assertThat(duplicatedIndexes.get(0).getIndexNames()).containsExactlyInAnyOrder(
                 "demo.i_order_item_sku_order_id_unique", "demo.order_item_sku_order_id_key");
@@ -84,16 +85,18 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     void getIntersectedIndexesShouldReturnNothingForPublicSchema() {
         final List<DuplicatedIndexes> intersectedIndexes = indexesMaintenance.getIntersectedIndexes();
 
-        assertNotNull(intersectedIndexes);
-        assertEquals(0, intersectedIndexes.size());
+        assertThat(intersectedIndexes)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test
     void getIntersectedIndexesShouldReturnOneRowForDemoSchema() {
         final List<DuplicatedIndexes> intersectedIndexes = indexesMaintenance.getIntersectedIndexes(demoSchema);
 
-        assertNotNull(intersectedIndexes);
-        assertEquals(2, intersectedIndexes.size());
+        assertThat(intersectedIndexes)
+                .isNotNull()
+                .hasSize(2);
         // HOW TO FIX: consider using an index with a different column order or just delete unnecessary indexes
         assertThat(intersectedIndexes.get(1).getIndexNames()).contains(
                 "demo.buyer_pkey", "demo.i_buyer_id_phone");
@@ -105,16 +108,18 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     void getForeignKeysNotCoveredWithIndexShouldReturnNothingForPublicSchema() {
         final List<ForeignKey> foreignKeys = indexesMaintenance.getForeignKeysNotCoveredWithIndex();
 
-        assertNotNull(foreignKeys);
-        assertEquals(0, foreignKeys.size());
+        assertThat(foreignKeys)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test
     void getForeignKeysNotCoveredWithIndexShouldReturnThreeRowsForDemoSchema() {
         final List<ForeignKey> foreignKeys = indexesMaintenance.getForeignKeysNotCoveredWithIndex(demoSchema);
 
-        assertNotNull(foreignKeys);
-        assertEquals(3, foreignKeys.size());
+        assertThat(foreignKeys)
+                .isNotNull()
+                .hasSize(3);
         // HOW TO FIX: create indexes on columns under foreign key constraint
         assertThat(foreignKeys.stream()
                 .map(ForeignKey::getConstraintName)
@@ -126,37 +131,41 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     void getTablesWithoutPrimaryKeyShouldReturnOneRowForPublicSchema() {
         final List<Table> tables = tablesMaintenance.getTablesWithoutPrimaryKey();
 
-        assertNotNull(tables);
-        assertEquals(1, tables.size());
+        assertThat(tables)
+                .isNotNull()
+                .hasSize(1);
         // HOW TO FIX: just add liquibase table to exclusions
-        assertEquals("databasechangelog", tables.get(0).getTableName());
+        assertThat(tables.get(0).getTableName()).isEqualTo("databasechangelog");
     }
 
     @Test
     void getTablesWithoutPrimaryKeyShouldReturnOneRowForDemoSchema() {
         final List<Table> tables = tablesMaintenance.getTablesWithoutPrimaryKey(demoSchema);
 
-        assertNotNull(tables);
-        assertEquals(1, tables.size());
+        assertThat(tables)
+                .isNotNull()
+                .hasSize(1);
         // HOW TO FIX: add primary key to the table
-        assertEquals("demo.payment", tables.get(0).getTableName());
+        assertThat(tables.get(0).getTableName()).isEqualTo("demo.payment");
     }
 
     @Test
     void getIndexesWithNullValuesShouldReturnNothingForPublicSchema() {
         final List<IndexWithNulls> indexesWithNulls = indexesMaintenance.getIndexesWithNullValues();
 
-        assertNotNull(indexesWithNulls);
-        assertEquals(0, indexesWithNulls.size());
+        assertThat(indexesWithNulls)
+                .isNotNull()
+                .isEmpty();
     }
 
     @Test
     void getIndexesWithNullValuesShouldReturnOneRowForDemoSchema() {
         final List<IndexWithNulls> indexesWithNulls = indexesMaintenance.getIndexesWithNullValues(demoSchema);
 
-        assertNotNull(indexesWithNulls);
-        assertEquals(1, indexesWithNulls.size());
+        assertThat(indexesWithNulls)
+                .isNotNull()
+                .hasSize(1);
         // HOW TO FIX: consider excluding null values from index if it's possible
-        assertEquals("demo.i_buyer_middle_name", indexesWithNulls.get(0).getIndexName());
+        assertThat(indexesWithNulls.get(0).getIndexName()).isEqualTo("demo.i_buyer_middle_name");
     }
 }
