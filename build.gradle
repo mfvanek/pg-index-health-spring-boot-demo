@@ -54,6 +54,9 @@ dependencies {
     testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
     testImplementation 'org.assertj:assertj-core:3.22.0'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
 
 test {
