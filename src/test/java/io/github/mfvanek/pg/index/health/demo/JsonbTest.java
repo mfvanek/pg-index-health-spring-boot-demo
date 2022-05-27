@@ -49,7 +49,7 @@ public class JsonbTest extends BasePgIndexHealthDemoSpringBootTest {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            final int count = jdbcTemplate.update("update demo.payment set info = ? where id = ?", fixedInfoObject, p.getId());
+            final int count = jdbcTemplate.update("update demo.payment set info = ?::jsonb where id = ?::bigint", fixedInfoObject, p.getId());
             assertThat(count).isEqualTo(1);
         });
     }
