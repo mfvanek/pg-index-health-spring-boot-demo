@@ -37,8 +37,9 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody()).contains("jvm_threads_live_threads");
+        assertThat(response.getBody())
+                .isNotNull()
+                .contains("jvm_threads_live_threads");
     }
 
     @Test
@@ -47,8 +48,9 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody()).contains("{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}");
+        assertThat(response.getBody())
+                .isNotNull()
+                .contains("{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}");
     }
 
     @Test
@@ -57,8 +59,9 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody()).contains("{\"status\":\"UP\"}");
+        assertThat(response.getBody())
+                .isNotNull()
+                .contains("{\"status\":\"UP\"}");
     }
 
     @Test
@@ -67,8 +70,9 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody()).contains("{\"status\":\"UP\"}");
+        assertThat(response.getBody())
+                .isNotNull()
+                .contains("{\"status\":\"UP\"}");
     }
 
     @Test
@@ -77,9 +81,10 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody()).contains(
-                "{\"contexts\":{\"pg-index-health-spring-boot-demo\":{\"liquibaseBeans\":{\"liquibase\":{\"changeSets\"");
+        assertThat(response.getBody())
+                .isNotNull()
+                .contains("{\"contexts\":{\"pg-index-health-spring-boot-demo\":" +
+                        "{\"liquibaseBeans\":{\"liquibase\":{\"changeSets\"");
     }
 
     @Test
@@ -88,8 +93,9 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody()).contains("\"version\":");
+        assertThat(response.getBody())
+                .isNotNull()
+                .contains("\"version\":");
     }
 
     @Test
@@ -98,7 +104,8 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
         final URI location = response.getHeaders().getLocation();
-        assertThat(location).isNotNull();
-        assertThat(location.toString()).isEqualTo("/actuator/swagger-ui/index.html");
+        assertThat(location)
+                .isNotNull()
+                .hasToString("/actuator/swagger-ui/index.html");
     }
 }
