@@ -15,11 +15,13 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
+import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
 public class DatabaseConfig {
 
+    @SuppressWarnings({"java:S2095", "java:S1452"})
     @Bean(initMethod = "start", destroyMethod = "stop")
     public JdbcDatabaseContainer<?> jdbcDatabaseContainer() {
         return new PostgreSQLContainer<>("postgres:13.2")
@@ -30,7 +32,7 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public DataSource dataSource(JdbcDatabaseContainer<?> jdbcDatabaseContainer) {
+    public DataSource dataSource(@Nonnull final JdbcDatabaseContainer<?> jdbcDatabaseContainer) {
         final HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(jdbcDatabaseContainer.getJdbcUrl());
         hikariConfig.setUsername(jdbcDatabaseContainer.getUsername());

@@ -26,8 +26,8 @@ public class DefaultController {
     @Value("${management.server.port}")
     private int actuatorPort;
 
-    @GetMapping(value = "/")
-    public void redirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @GetMapping("/")
+    public void redirect(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         final String requestUrl = request.getRequestURL().toString();
         final String targetUrl = requestUrl.replace(String.valueOf(port), String.valueOf(actuatorPort)) + "actuator/swaggerui";
         log.info("Redirecting to {}", targetUrl);

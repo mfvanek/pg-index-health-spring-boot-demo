@@ -31,7 +31,7 @@ public class DbStatisticsController {
     }
 
     @PostMapping("/reset")
-    public ResponseEntity<OffsetDateTime> doReset(@RequestBody boolean wait) {
+    public ResponseEntity<OffsetDateTime> doReset(@RequestBody final boolean wait) {
         if (wait) {
             return ResponseEntity.ok().body(statisticsCollectorService.resetStatistics());
         }

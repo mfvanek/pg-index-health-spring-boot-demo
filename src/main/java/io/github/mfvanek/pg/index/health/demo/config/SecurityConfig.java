@@ -7,7 +7,7 @@
 
 package io.github.mfvanek.pg.index.health.demo.config;
 
-import org.jetbrains.annotations.NotNull;
+import lombok.SneakyThrows;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,13 +16,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.Nonnull;
+
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    @SneakyThrows
+    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity)  {
         httpSecurity.requestMatcher(EndpointRequest.toAnyEndpoint())
-                .authorizeRequests((requests) -> requests.anyRequest().authenticated())
+                .authorizeRequests(requests -> requests.anyRequest().authenticated())
                 .httpBasic();
         return httpSecurity.build();
     }
@@ -31,8 +34,8 @@ public class SecurityConfig {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(@NotNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+            public void addCorsMappings(@Nonnull final CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*"); //NOSONAR
             }
         };
     }

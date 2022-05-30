@@ -31,8 +31,9 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<OffsetDateTime> response = restTemplate.getForEntity(url, OffsetDateTime.class);
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
         final OffsetDateTime resetTimestamp = response.getBody();
-        assertThat(resetTimestamp).isNotNull();
-        assertThat(resetTimestamp).isBefore(startTestTimestamp);
+        assertThat(resetTimestamp)
+                .isNotNull()
+                .isBefore(startTestTimestamp);
     }
 
     @Test
@@ -44,7 +45,7 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.ACCEPTED);
         final OffsetDateTime resetTimestamp = response.getBody();
         assertThat(resetTimestamp).isNotNull();
-        assertThat(executionTime / 1000_000L).isLessThan(1_000L); // less than 1000ms
+        assertThat(executionTime / 1_000_000L).isLessThan(1_000L); // less than 1000ms
     }
 
     @Test
@@ -56,6 +57,6 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
         final OffsetDateTime resetTimestamp = response.getBody();
         assertThat(resetTimestamp).isNotNull();
-        assertThat(executionTime / 1000_000L).isGreaterThanOrEqualTo(1_000L); // >= 1000ms
+        assertThat(executionTime / 1_000_000L).isGreaterThanOrEqualTo(1_000L); // >= 1000ms
     }
 }
