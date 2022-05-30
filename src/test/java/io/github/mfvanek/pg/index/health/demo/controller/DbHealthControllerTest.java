@@ -29,17 +29,18 @@ class DbHealthControllerTest  extends BasePgIndexHealthDemoSpringBootTest {
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
         final String[] responseBody = response.getBody();
-        assertThat(responseBody).isNotNull();
-        assertThat(responseBody).contains(
-                "invalid_indexes:1",
-                "duplicated_indexes:1",
-                "intersected_indexes:2",
-                "unused_indexes:0",
-                "foreign_keys_without_index:3",
-                "tables_with_missing_indexes:0",
-                "tables_without_primary_key:1",
-                "indexes_with_null_values:1",
-                "indexes_bloat:0",
-                "tables_bloat:0");
+        assertThat(responseBody)
+                .isNotNull()
+                .containsExactly(
+                        "invalid_indexes:1",
+                        "duplicated_indexes:1",
+                        "intersected_indexes:2",
+                        "unused_indexes:0",
+                        "foreign_keys_without_index:3",
+                        "tables_with_missing_indexes:0",
+                        "tables_without_primary_key:1",
+                        "indexes_with_null_values:1",
+                        "indexes_bloat:0",
+                        "tables_bloat:0");
     }
 }
