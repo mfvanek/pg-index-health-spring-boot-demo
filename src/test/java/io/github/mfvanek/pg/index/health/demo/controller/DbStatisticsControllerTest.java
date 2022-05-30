@@ -31,8 +31,9 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<OffsetDateTime> response = restTemplate.getForEntity(url, OffsetDateTime.class);
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
         final OffsetDateTime resetTimestamp = response.getBody();
-        assertThat(resetTimestamp).isNotNull();
-        assertThat(resetTimestamp).isBefore(startTestTimestamp);
+        assertThat(resetTimestamp)
+                .isNotNull()
+                .isBefore(startTestTimestamp);
     }
 
     @Test

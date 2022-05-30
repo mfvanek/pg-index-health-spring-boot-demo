@@ -36,10 +36,15 @@ public class StatisticsCollectorService {
     }
 
     @Nonnull
-    public OffsetDateTime getLastStatsResetTimestamp() {
+    private OffsetDateTime getLastStatsResetTimestampInner() {
         final OffsetDateTime result = databaseManagement.getLastStatsResetTimestamp().orElse(OffsetDateTime.MIN);
         log.trace("Last stats reset timestamp = {}", result);
         return result;
+    }
+
+    @Nonnull
+    public OffsetDateTime getLastStatsResetTimestamp() {
+        return getLastStatsResetTimestampInner();
     }
 
     public void resetStatisticsNoWait() {
@@ -50,6 +55,6 @@ public class StatisticsCollectorService {
     public OffsetDateTime resetStatistics() {
         databaseManagement.resetStatistics();
         waitForStatisticsCollector();
-        return getLastStatsResetTimestamp();
+        return getLastStatsResetTimestampInner();
     }
 }

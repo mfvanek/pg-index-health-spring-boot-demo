@@ -25,7 +25,7 @@ public class SecurityConfig {
     @SneakyThrows
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity)  {
         httpSecurity.requestMatcher(EndpointRequest.toAnyEndpoint())
-                .authorizeRequests((requests) -> requests.anyRequest().authenticated())
+                .authorizeRequests(requests -> requests.anyRequest().authenticated())
                 .httpBasic();
         return httpSecurity.build();
     }
@@ -35,7 +35,7 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@Nonnull final CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
+                registry.addMapping("/**").allowedOrigins("*"); //NOSONAR
             }
         };
     }

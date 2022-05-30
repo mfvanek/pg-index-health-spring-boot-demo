@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 @Configuration(proxyBeanMethods = false)
 public class DatabaseConfig {
 
+    @SuppressWarnings({"java:S2095", "java:S1452"})
     @Bean(initMethod = "start", destroyMethod = "stop")
     public JdbcDatabaseContainer<?> jdbcDatabaseContainer() {
         return new PostgreSQLContainer<>("postgres:13.2")
