@@ -37,7 +37,7 @@ public class StatisticsCollectorService {
 
     @Nonnull
     public OffsetDateTime getLastStatsResetTimestamp() {
-        OffsetDateTime result = databaseManagement.getLastStatsResetTimestamp().orElse(OffsetDateTime.MIN);
+        final OffsetDateTime result = databaseManagement.getLastStatsResetTimestamp().orElse(OffsetDateTime.MIN);
         log.trace("Last stats reset timestamp = {}", result);
         return result;
     }

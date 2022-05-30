@@ -22,10 +22,11 @@ import java.io.IOException;
 public class PgParamJsonDeserializer extends JsonDeserializer<PgParam> {
 
     @Override
-    public PgParam deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    public PgParam deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
+            throws IOException {
         final TreeNode treeNode = jsonParser.getCodec().readTree(jsonParser);
-        TextNode name = (TextNode) treeNode.get("name");
-        TextNode value = (TextNode) treeNode.get("value");
+        final TextNode name = (TextNode) treeNode.get("name");
+        final TextNode value = (TextNode) treeNode.get("value");
         return PgParamImpl.of(name.asText(), value.asText());
     }
 }

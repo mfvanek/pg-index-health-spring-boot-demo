@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 public class DatabaseStructureHealthConfig {
 
     @Bean
-    public ConnectionCredentials connectionCredentials(@Nonnull JdbcDatabaseContainer<?> jdbcDatabaseContainer) {
+    public ConnectionCredentials connectionCredentials(@Nonnull final JdbcDatabaseContainer<?> jdbcDatabaseContainer) {
         return ConnectionCredentials.ofUrl(jdbcDatabaseContainer.getJdbcUrl(),
                 jdbcDatabaseContainer.getUsername(), jdbcDatabaseContainer.getPassword());
     }

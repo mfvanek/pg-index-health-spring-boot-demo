@@ -4,6 +4,7 @@ plugins {
     id 'com.github.spotbugs' version '5.0.6'
     id 'checkstyle'
     id 'jacoco'
+    id 'pmd'
 }
 
 group = 'io.github.mfvanek'
@@ -122,21 +123,21 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'METHOD'
                 value = 'MISSEDCOUNT'
-                maximum = 1
+                maximum = 0
             }
         }
         rule {
             limit {
                 counter = 'LINE'
                 value = 'MISSEDCOUNT'
-                maximum = 2
+                maximum = 1
             }
         }
         rule {
             limit {
                 counter = 'INSTRUCTION'
                 value = 'COVEREDRATIO'
-                minimum = 0.97
+                minimum = 0.98
             }
         }
     }
@@ -144,3 +145,10 @@ jacocoTestCoverageVerification {
 
 check.dependsOn jacocoTestReport
 check.dependsOn jacocoTestCoverageVerification
+
+pmd {
+    consoleOutput = true
+    toolVersion = "6.42.0"
+    ruleSetFiles = files("config/pmd/pmd.xml")
+    ruleSets = []
+}
