@@ -37,9 +37,11 @@ class JsonbTest extends BasePgIndexHealthDemoSpringBootTest {
                         .paymentTotal(rs.getBigDecimal("payment_total"))
                         .info(rs.getString("info"))
                         .build());
-        payments.forEach(p -> assertThat(p.getInfo())
-                .isNotBlank()
-                .isEqualTo("{\" payment\": {\"date\": \"2022-05-27T18:31:42\", \"result\": \"success\"}}"));
+        assertThat(payments)
+                .hasSize(10)
+                .flatExtracting(Payment::getInfo)
+                .allSatisfy(info -> assertThat(info)
+                        .isEqualTo("{\" payment\": {\"date\": \"2022-05-27T18:31:42\", \"result\": \"success\"}}"));
         payments.forEach(this::checkThatJsonbCanBeSavedToDatabase);
     }
 
@@ -60,6 +62,7 @@ class JsonbTest extends BasePgIndexHealthDemoSpringBootTest {
     @ToString
     @SuperBuilder
     static class Payment {
+
         private final long paymentId;
         private final long orderId;
         private final int status;
