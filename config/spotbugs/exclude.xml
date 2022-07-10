@@ -6,4 +6,12 @@
             <Class name="io.github.mfvanek.pg.index.health.demo.service.StatisticsCollectorService"/>
         </Or>
     </Match>
+    <Match>
+        <Bug pattern="SIC_INNER_SHOULD_BE_STATIC_ANON"/>
+        <Class name="io.github.mfvanek.pg.index.health.demo.config.SecurityConfig"/>
+    </Match>
+    <Match>
+        <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE"/>
+        <Class name="io.github.mfvanek.pg.index.health.demo.config.DatabaseConfig"/>
+    </Match>
 </FindBugsFilter>
