@@ -27,10 +27,9 @@ class DbHealthControllerTest  extends BasePgIndexHealthDemoSpringBootTest {
         final String url = String.format("http://localhost:%s/db/health", port);
         final ResponseEntity<String[]> response = restTemplate.getForEntity(url, String[].class);
 
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         final String[] responseBody = response.getBody();
         assertThat(responseBody)
-                .isNotNull()
                 .containsExactly(
                         "invalid_indexes:1",
                         "duplicated_indexes:1",
@@ -40,7 +39,9 @@ class DbHealthControllerTest  extends BasePgIndexHealthDemoSpringBootTest {
                         "tables_with_missing_indexes:0",
                         "tables_without_primary_key:1",
                         "indexes_with_null_values:1",
-                        "indexes_bloat:0",
-                        "tables_bloat:0");
+                        "indexes_with_bloat:0",
+                        "tables_with_bloat:0",
+                        "tables_without_description:0",
+                        "columns_without_description:0");
     }
 }

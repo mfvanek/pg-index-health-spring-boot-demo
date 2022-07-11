@@ -29,10 +29,10 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
         final OffsetDateTime startTestTimestamp = OffsetDateTime.now();
         final String url = String.format("http://localhost:%s/db/statistics/reset", port);
         final ResponseEntity<OffsetDateTime> response = restTemplate.getForEntity(url, OffsetDateTime.class);
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
         final OffsetDateTime resetTimestamp = response.getBody();
         assertThat(resetTimestamp)
-                .isNotNull()
                 .isBefore(startTestTimestamp);
     }
 
@@ -42,9 +42,11 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
         final String url = String.format("http://localhost:%s/db/statistics/reset", port);
         final ResponseEntity<OffsetDateTime> response = restTemplate.postForEntity(url, false, OffsetDateTime.class);
         final long executionTime = System.nanoTime() - startTime;
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.ACCEPTED);
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.ACCEPTED);
         final OffsetDateTime resetTimestamp = response.getBody();
-        assertThat(resetTimestamp).isNotNull();
+        assertThat(resetTimestamp)
+                .isNotNull();
         assertThat(executionTime / 1_000_000L).isLessThan(1_000L); // less than 1000ms
     }
 
@@ -54,9 +56,11 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
         final String url = String.format("http://localhost:%s/db/statistics/reset", port);
         final ResponseEntity<OffsetDateTime> response = restTemplate.postForEntity(url, true, OffsetDateTime.class);
         final long executionTime = System.nanoTime() - startTime;
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
         final OffsetDateTime resetTimestamp = response.getBody();
-        assertThat(resetTimestamp).isNotNull();
+        assertThat(resetTimestamp)
+                .isNotNull();
         assertThat(executionTime / 1_000_000L).isGreaterThanOrEqualTo(1_000L); // >= 1000ms
     }
 }
