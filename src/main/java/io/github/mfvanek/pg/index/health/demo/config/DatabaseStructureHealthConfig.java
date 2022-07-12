@@ -7,11 +7,9 @@
 
 package io.github.mfvanek.pg.index.health.demo.config;
 
-import io.github.mfvanek.pg.common.health.DatabaseHealthFactory;
-import io.github.mfvanek.pg.common.health.DatabaseHealthFactoryImpl;
 import io.github.mfvanek.pg.common.health.logger.HealthLogger;
 import io.github.mfvanek.pg.common.health.logger.StandardHealthLogger;
-import io.github.mfvanek.pg.common.maintenance.MaintenanceFactoryImpl;
+import io.github.mfvanek.pg.common.maintenance.DatabaseChecks;
 import io.github.mfvanek.pg.common.management.DatabaseManagement;
 import io.github.mfvanek.pg.common.management.DatabaseManagementImpl;
 import io.github.mfvanek.pg.connection.ConnectionCredentials;
@@ -20,6 +18,8 @@ import io.github.mfvanek.pg.connection.HighAvailabilityPgConnectionFactory;
 import io.github.mfvanek.pg.connection.HighAvailabilityPgConnectionFactoryImpl;
 import io.github.mfvanek.pg.connection.PgConnectionFactoryImpl;
 import io.github.mfvanek.pg.connection.PrimaryHostDeterminerImpl;
+import io.github.mfvanek.pg.settings.maintenance.ConfigurationMaintenanceOnHostImpl;
+import io.github.mfvanek.pg.statistics.maintenance.StatisticsMaintenanceOnHostImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.testcontainers.containers.JdbcDatabaseContainer;
@@ -41,15 +41,9 @@ public class DatabaseStructureHealthConfig {
     }
 
     @Bean
-    public DatabaseHealthFactory databaseHealthFactory() {
-        return new DatabaseHealthFactoryImpl(new MaintenanceFactoryImpl());
-    }
-
-    @Bean
     public HealthLogger healthLogger(@Nonnull final ConnectionCredentials connectionCredentials,
-                                     @Nonnull final HighAvailabilityPgConnectionFactory highAvailabilityPgConnectionFactory,
-                                     @Nonnull final DatabaseHealthFactory databaseHealthFactory) {
-        return new StandardHealthLogger(connectionCredentials, highAvailabilityPgConnectionFactory, databaseHealthFactory);
+                                     @Nonnull final HighAvailabilityPgConnectionFactory highAvailabilityPgConnectionFactory) {
+        return new StandardHealthLogger(connectionCredentials, highAvailabilityPgConnectionFactory, DatabaseChecks::new);
     }
 
     @Bean
@@ -61,6 +55,8 @@ public class DatabaseStructureHealthConfig {
 
     @Bean
     public DatabaseManagement databaseManagement(@Nonnull final HighAvailabilityPgConnection highAvailabilityPgConnection) {
-        return new DatabaseManagementImpl(highAvailabilityPgConnection, new MaintenanceFactoryImpl());
+        return new DatabaseManagementImpl(highAvailabilityPgConnection,
+                StatisticsMaintenanceOnHostImpl::new,
+                ConfigurationMaintenanceOnHostImpl::new);
     }
 }

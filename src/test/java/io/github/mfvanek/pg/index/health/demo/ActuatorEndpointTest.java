@@ -31,7 +31,8 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void actuatorShouldBeRunOnSeparatePort() {
-        assertThat(actuatorPort).isNotEqualTo(port);
+        assertThat(actuatorPort)
+                .isNotEqualTo(port);
     }
 
     @ParameterizedTest
@@ -46,9 +47,8 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, endpointName);
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody())
-                .isNotNull()
                 .contains(expectedSubstring);
     }
 
@@ -56,10 +56,10 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
     void swaggerUiEndpointShouldReturnFound() {
         final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "swaggerui");
         final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.FOUND);
         final URI location = response.getHeaders().getLocation();
         assertThat(location)
-                .isNotNull()
                 .hasToString("/actuator/swagger-ui/index.html");
     }
 }

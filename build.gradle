@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'io.github.mfvanek'
-version = '0.4.0-SNAPSHOT'
+version = '0.6.0-SNAPSHOT'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -33,9 +33,9 @@ configurations.all {
 
 def testContainersVersion = '1.16.3'
 def lombokVersion = '1.18.22'
-def springBootVersion = '2.6.3'
+def springBootVersion = '2.6.4'
 def springdocVersion = '1.6.6'
-def pgihVersion = '0.4.0'
+def pgihVersion = '0.6.0'
 
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'

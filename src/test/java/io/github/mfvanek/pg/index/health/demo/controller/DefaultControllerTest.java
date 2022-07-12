@@ -28,9 +28,12 @@ class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     void rootPageShouldRedirectToSwaggerUi() {
         final String url = String.format("http://localhost:%s/", port);
         final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.FOUND);
         final URI location = response.getHeaders().getLocation();
-        assertThat(location).isNotNull();
-        assertThat(location.getRawPath()).isEqualTo("/actuator/swaggerui");
+        assertThat(location)
+                .isNotNull();
+        assertThat(location.getRawPath())
+                .isEqualTo("/actuator/swaggerui");
     }
 }

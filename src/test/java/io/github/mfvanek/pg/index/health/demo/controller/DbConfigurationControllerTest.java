@@ -29,10 +29,10 @@ class DbConfigurationControllerTest extends BasePgIndexHealthDemoSpringBootTest 
         final String url = String.format("http://localhost:%s/db/configuration", port);
         final ResponseEntity<PgParam[]> response = restTemplate.getForEntity(url, PgParam[].class);
 
-        assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
         final PgParam[] responseBody = response.getBody();
         assertThat(responseBody)
-                .isNotNull()
                 .containsExactly(
                         PgParamImpl.of("maintenance_work_mem", "64MB"),
                         PgParamImpl.of("random_page_cost", "4"),
