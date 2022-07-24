@@ -60,7 +60,6 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
         assertThat(pgVersion).startsWith("PostgreSQL 13.2");
     }
 
-
     @Test
     void getInvalidIndexesShouldReturnNothingForPublicSchema() {
         assertThat(invalidIndexesCheck.check())

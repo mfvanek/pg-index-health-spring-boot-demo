@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class DbHealthControllerTest  extends BasePgIndexHealthDemoSpringBootTest {
+class DbHealthControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @BeforeEach
     void setUp() {
