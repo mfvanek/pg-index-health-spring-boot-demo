@@ -48,13 +48,15 @@ class JsonbTest extends BasePgIndexHealthDemoSpringBootTest {
     @SneakyThrows
     private void checkThatJsonbCanBeSavedToDatabase(@Nonnull final Payment payment) {
         final String withoutWhitespaces = StringUtils.deleteWhitespace(payment.getInfo());
-        assertThat(withoutWhitespaces).isEqualTo("{\"payment\":{\"date\":\"2022-05-27T18:31:42\",\"result\":\"success\"}}");
+        assertThat(withoutWhitespaces)
+                .isEqualTo("{\"payment\":{\"date\":\"2022-05-27T18:31:42\",\"result\":\"success\"}}");
         final PGobject fixedInfoObject = new PGobject();
         fixedInfoObject.setType("jsonb");
         fixedInfoObject.setValue(withoutWhitespaces);
         final int count = jdbcTemplate.update("update demo.payment set info = ?::jsonb where id = ?::bigint",
                 fixedInfoObject, payment.getPaymentId());
-        assertThat(count).isEqualTo(1);
+        assertThat(count)
+                .isEqualTo(1);
     }
 
     @Getter

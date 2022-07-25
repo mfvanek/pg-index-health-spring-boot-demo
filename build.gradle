@@ -13,8 +13,8 @@ group = 'io.github.mfvanek'
 version = '0.6.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 configurations {
@@ -73,7 +73,7 @@ dependencyManagement {
 test {
 	useJUnitPlatform()
     dependsOn checkstyleMain, checkstyleTest, pmdMain, pmdTest, spotbugsMain, spotbugsTest
-    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    maxParallelForks = 1
     finalizedBy jacocoTestReport
     finalizedBy jacocoTestCoverageVerification
 }

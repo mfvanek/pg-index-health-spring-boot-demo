@@ -15,7 +15,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
 import javax.annotation.Nonnull;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,7 +46,8 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, endpointName);
         final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
         assertThat(response.getBody())
                 .contains(expectedSubstring);
     }
@@ -58,8 +58,7 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
         final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
         assertThat(response.getStatusCode())
                 .isEqualTo(HttpStatus.FOUND);
-        final URI location = response.getHeaders().getLocation();
-        assertThat(location)
+        assertThat(response.getHeaders().getLocation())
                 .hasToString("/actuator/swagger-ui/index.html");
     }
 }
