@@ -54,7 +54,7 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void swaggerUiEndpointShouldReturnFound() {
-        final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "swaggerui");
+        final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "swagger-ui");
         final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
         assertThat(response.getStatusCode())
                 .isEqualTo(HttpStatus.FOUND);

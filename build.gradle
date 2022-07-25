@@ -32,7 +32,7 @@ configurations.all {
     exclude group: 'org.hamcrest'
 }
 
-def springdocVersion = '1.6.7'
+def springdocVersion = '1.6.9'
 def pgihVersion = '0.6.0'
 
 dependencies {
