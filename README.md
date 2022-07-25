@@ -15,7 +15,7 @@ See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-heal
 Use `demouser/testpwd123` in order to access Actuator endpoints.
 
 #### Swagger UI
-http://localhost:8081/actuator/swaggerui
+http://localhost:8081/actuator/swagger-ui
 
 #### Health
 http://localhost:8081/actuator/health

@@ -57,9 +57,9 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     @DisplayName("Always check PostgreSQL version in your tests")
     void checkPostgresVersion() {
         final String pgVersion = jdbcTemplate.queryForObject("select version();", String.class);
-        assertThat(pgVersion).startsWith("PostgreSQL 13.2");
+        assertThat(pgVersion)
+                .startsWith("PostgreSQL 13.2");
     }
-
 
     @Test
     void getInvalidIndexesShouldReturnNothingForPublicSchema() {

@@ -1,7 +1,8 @@
 plugins {
 	id 'java'
-    id 'org.springframework.boot' version '2.6.3'
-    id 'com.github.spotbugs' version '5.0.6'
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'com.github.spotbugs' version '5.0.9'
     id 'checkstyle'
     id 'jacoco'
     id 'pmd'
@@ -9,11 +10,11 @@ plugins {
 }
 
 group = 'io.github.mfvanek'
-version = '0.6.0-SNAPSHOT'
+version = '0.6.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 configurations {
@@ -31,42 +32,48 @@ configurations.all {
     exclude group: 'org.hamcrest'
 }
 
-def testContainersVersion = '1.16.3'
-def lombokVersion = '1.18.22'
-def springBootVersion = '2.6.4'
-def springdocVersion = '1.6.6'
+def springdocVersion = '1.6.9'
 def pgihVersion = '0.6.0'
 
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.8.2'
-	implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
-	implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
-	implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.0'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.7.1'
-    implementation 'org.postgresql:postgresql:42.3.2'
-    implementation "org.testcontainers:testcontainers:$testContainersVersion"
-    implementation "org.testcontainers:postgresql:$testContainersVersion"
+    implementation 'org.liquibase:liquibase-core:4.11.0'
+    implementation 'org.postgresql:postgresql:42.3.6'
+    implementation 'org.testcontainers:testcontainers'
+    implementation 'org.testcontainers:postgresql'
     implementation "io.github.mfvanek:pg-index-health:$pgihVersion"
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
-	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
 
-	testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
-	testImplementation "org.testcontainers:junit-jupiter:$testContainersVersion"
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
+	testImplementation "org.testcontainers:junit-jupiter"
     testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
-    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
-    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
-    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.testcontainers:testcontainers-bom:1.17.3'
+    }
 }
 
 test {
 	useJUnitPlatform()
+    dependsOn checkstyleMain, checkstyleTest, pmdMain, pmdTest, spotbugsMain, spotbugsTest
+    maxParallelForks = 1
     finalizedBy jacocoTestReport
     finalizedBy jacocoTestCoverageVerification
 }
@@ -76,7 +83,7 @@ springBoot {
 }
 
 checkstyle {
-    toolVersion '8.45'
+    toolVersion '10.3.1'
     configFile file("config/checkstyle/checkstyle.xml")
     ignoreFailures = false
     maxWarnings = 0
@@ -146,12 +153,11 @@ jacocoTestCoverageVerification {
     }
 }
 
-check.dependsOn jacocoTestReport
-check.dependsOn jacocoTestCoverageVerification
+check.dependsOn jacocoTestReport, jacocoTestCoverageVerification
 
 pmd {
     consoleOutput = true
-    toolVersion = "6.42.0"
+    toolVersion = "6.47.0"
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = []
 }

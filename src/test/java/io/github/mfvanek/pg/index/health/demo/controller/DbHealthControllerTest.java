@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class DbHealthControllerTest  extends BasePgIndexHealthDemoSpringBootTest {
+class DbHealthControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @BeforeEach
     void setUp() {
@@ -27,9 +27,9 @@ class DbHealthControllerTest  extends BasePgIndexHealthDemoSpringBootTest {
         final String url = String.format("http://localhost:%s/db/health", port);
         final ResponseEntity<String[]> response = restTemplate.getForEntity(url, String[].class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        final String[] responseBody = response.getBody();
-        assertThat(responseBody)
+        assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody())
                 .containsExactly(
                         "invalid_indexes:1",
                         "duplicated_indexes:1",
