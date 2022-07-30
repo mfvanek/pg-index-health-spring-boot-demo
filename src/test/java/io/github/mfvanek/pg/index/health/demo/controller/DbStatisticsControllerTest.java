@@ -10,13 +10,18 @@ package io.github.mfvanek.pg.index.health.demo.controller;
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.OffsetDateTime;
+import javax.annotation.Nonnull;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(OutputCaptureExtension.class)
 class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @BeforeEach
@@ -25,7 +30,7 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     }
 
     @Test
-    void getLastResetDateShouldNotReturnNull() {
+    void getLastResetDateShouldNotReturnNull(@Nonnull final CapturedOutput output) {
         final OffsetDateTime startTestTimestamp = OffsetDateTime.now();
         final String url = String.format("http://localhost:%s/db/statistics/reset", port);
         final ResponseEntity<OffsetDateTime> response = restTemplate.getForEntity(url, OffsetDateTime.class);
@@ -33,10 +38,13 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
                 .isEqualTo(HttpStatus.OK);
         assertThat(response.getBody())
                 .isBefore(startTestTimestamp);
+        assertThat(output.getOut())
+                .as("waitForStatisticsCollector should not be called")
+                .doesNotContain("vacuum analyze");
     }
 
     @Test
-    void doResetWithoutWaitShouldReturnAccepted() {
+    void doResetWithoutWaitShouldReturnAccepted(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
         final String url = String.format("http://localhost:%s/db/statistics/reset", port);
         final ResponseEntity<OffsetDateTime> response = restTemplate.postForEntity(url, false, OffsetDateTime.class);
@@ -45,11 +53,15 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
                 .isEqualTo(HttpStatus.ACCEPTED);
         assertThat(response.getBody())
                 .isNotNull();
-        assertThat(executionTime / 1_000_000L).isLessThan(1_000L); // less than 1000ms
+        assertThat(executionTime / 1_000_000L)
+                .isLessThan(1_000L); // less than 1000ms
+        assertThat(output.getOut())
+                .as("waitForStatisticsCollector should not be called")
+                .doesNotContain("vacuum analyze");
     }
 
     @Test
-    void doResetWithWaitShouldReturnOk() {
+    void doResetWithWaitShouldReturnOk(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
         final String url = String.format("http://localhost:%s/db/statistics/reset", port);
         final ResponseEntity<OffsetDateTime> response = restTemplate.postForEntity(url, true, OffsetDateTime.class);
@@ -58,6 +70,10 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
                 .isEqualTo(HttpStatus.OK);
         assertThat(response.getBody())
                 .isNotNull();
-        assertThat(executionTime / 1_000_000L).isGreaterThanOrEqualTo(1_000L); // >= 1000ms
+        assertThat(executionTime / 1_000_000L)
+                .isGreaterThanOrEqualTo(1_000L); // >= 1000ms
+        assertThat(output.getOut())
+                .as("waitForStatisticsCollector should be called")
+                .contains("vacuum analyze");
     }
 }
