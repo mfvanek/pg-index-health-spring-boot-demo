@@ -115,14 +115,26 @@ spotbugs {
     excludeFilter = file("config/spotbugs/exclude.xml")
 }
 
+def jacocoExclude = ['**/PgIndexHealthSpringBootDemoApplication.class']
 jacocoTestReport {
+    dependsOn test
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExclude)
+        }))
+    }
     reports {
-        xml.enabled true
+        xml.enabled false
         html.enabled true
     }
 }
 jacocoTestCoverageVerification {
     dependsOn test
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: jacocoExclude)
+        }))
+    }
     violationRules {
         rule {
             limit {
@@ -179,8 +191,10 @@ pitest {
     threads = 4
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
-    mutationThreshold = 83
-    excludedTestClasses = ['io.github.mfvanek.pg.index.health.demo.ApplicationStartTest']
+    mutationThreshold = 81
+    excludedClasses = ['io.github.mfvanek.pg.index.health.demo.config.*',
+                       'io.github.mfvanek.pg.index.health.demo.PgIndexHealthSpringBootDemoApplication']
+    excludedTestClasses = ['io.github.mfvanek.pg.index.health.demo.ActuatorEndpointTest']
 }
 
-build.dependsOn 'pitest'
+ build.dependsOn 'pitest'
