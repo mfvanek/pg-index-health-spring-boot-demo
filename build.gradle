@@ -197,4 +197,4 @@ pitest {
     excludedTestClasses = ['io.github.mfvanek.pg.index.health.demo.ActuatorEndpointTest']
 }
 
- build.dependsOn 'pitest'
+build.dependsOn 'pitest'
