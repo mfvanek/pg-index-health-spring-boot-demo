@@ -37,15 +37,15 @@ def springdocVersion = '1.6.9'
 def pgihVersion = '0.6.0'
 
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.0'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.2'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.11.0'
-    implementation 'org.postgresql:postgresql:42.3.6'
+    implementation 'org.liquibase:liquibase-core:4.15.0'
+    implementation 'org.postgresql:postgresql:42.4.1'
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
     implementation "io.github.mfvanek:pg-index-health:$pgihVersion"
