@@ -179,13 +179,13 @@ pitest {
     threads = 4
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
-    mutationThreshold = 81
+    mutationThreshold = 100
     excludedClasses = ['io.github.mfvanek.pg.index.health.demo.config.*',
                        'io.github.mfvanek.pg.index.health.demo.PgIndexHealthSpringBootDemoApplication']
     excludedTestClasses = ['io.github.mfvanek.pg.index.health.demo.ActuatorEndpointTest']
 }
 
 tasks.named('pitest').configure {
-    shouldRunAfter test
+    mustRunAfter test
 }
 build.dependsOn 'pitest'

@@ -36,7 +36,9 @@ public class DbStatisticsController {
             return ResponseEntity.ok().body(statisticsCollectorService.resetStatistics());
         }
 
-        statisticsCollectorService.resetStatisticsNoWait();
+        if (!statisticsCollectorService.resetStatisticsNoWait()) {
+            throw new IllegalStateException("Could not reset statistics");
+        }
         return ResponseEntity.accepted().body(statisticsCollectorService.getLastStatsResetTimestamp());
     }
 }

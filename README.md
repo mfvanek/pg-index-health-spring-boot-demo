@@ -12,7 +12,7 @@ See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-heal
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=mfvanek_pg-index-health-spring-boot-demo&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=mfvanek_pg-index-health-spring-boot-demo)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mfvanek_pg-index-health-spring-boot-demo&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mfvanek_pg-index-health-spring-boot-demo)
 
-[![Mutation score](https://img.shields.io/badge/Mutation%20score-81%25-green)](https://pitest.org/ "Mutation score 81%")
+[![Mutation score](https://img.shields.io/badge/Mutation%20score-100%25-green)](https://pitest.org/ "Mutation score 100%")
 
 ### Endpoints
 Use `demouser/testpwd123` in order to access Actuator endpoints.
