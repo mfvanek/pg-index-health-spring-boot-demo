@@ -1,18 +1,18 @@
 plugins {
 	id 'java'
-    id 'org.springframework.boot' version '2.7.2'
+    id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'com.github.spotbugs' version '5.0.9'
     id 'checkstyle'
     id 'jacoco'
     id 'pmd'
     id 'org.sonarqube' version '3.3'
-    id 'info.solidsoft.pitest' version '1.7.4'
+    id 'info.solidsoft.pitest' version '1.9.0'
     id 'io.freefair.lombok' version '6.5.0.3'
 }
 
 group = 'io.github.mfvanek'
-version = '0.6.1-SNAPSHOT'
+version = '0.6.2-SNAPSHOT'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -40,7 +40,7 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
     implementation 'org.liquibase:liquibase-core:4.15.0'
-    implementation 'org.postgresql:postgresql:42.4.1'
+    implementation 'org.postgresql:postgresql:42.4.2'
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
     implementation "io.github.mfvanek:pg-index-health:$pgihVersion"
@@ -66,7 +66,6 @@ test {
     maxParallelForks = 1
     finalizedBy jacocoTestReport
     finalizedBy jacocoTestCoverageVerification
-    finalizedBy 'pitest'
 }
 
 springBoot {
@@ -176,7 +175,7 @@ sonarqube {
 pitest {
     verbose = false
     junit5PluginVersion = '1.0.0'
-    pitestVersion = '1.9.3'
+    pitestVersion = '1.9.4'
     threads = 4
     outputFormats = ['XML', 'HTML']
     timestampedReports = false
@@ -186,4 +185,7 @@ pitest {
     excludedTestClasses = ['io.github.mfvanek.pg.index.health.demo.ActuatorEndpointTest']
 }
 
+tasks.named('pitest').configure {
+    shouldRunAfter test
+}
 build.dependsOn 'pitest'
