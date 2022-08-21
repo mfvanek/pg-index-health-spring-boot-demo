@@ -29,7 +29,7 @@ configurations.all {
 }
 
 def springdocVersion = '1.6.9'
-def pgihVersion = '0.6.0'
+def pgihVersion = '0.6.1'
 
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.9.2'
