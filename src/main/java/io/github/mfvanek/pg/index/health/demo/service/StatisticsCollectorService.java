@@ -47,14 +47,16 @@ public class StatisticsCollectorService {
         return getLastStatsResetTimestampInner();
     }
 
-    public void resetStatisticsNoWait() {
-        databaseManagement.resetStatistics();
+    public boolean resetStatisticsNoWait() {
+        return databaseManagement.resetStatistics();
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public OffsetDateTime resetStatistics() {
-        databaseManagement.resetStatistics();
-        waitForStatisticsCollector();
-        return getLastStatsResetTimestampInner();
+        if (databaseManagement.resetStatistics()) {
+            waitForStatisticsCollector();
+            return getLastStatsResetTimestampInner();
+        }
+        throw new IllegalStateException("Could not reset statistics");
     }
 }
