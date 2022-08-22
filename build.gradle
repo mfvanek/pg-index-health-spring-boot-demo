@@ -54,6 +54,7 @@ dependencies {
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
     pitest 'io.github.wmaarts:pitest-mutation-testing-elements-plugin:0.4.0'
+    pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.2'
 }
 
 dependencyManagement {
@@ -179,7 +180,7 @@ pitest {
     junit5PluginVersion = '1.0.0'
     pitestVersion = '1.9.4'
     threads = 4
-    outputFormats = ['XML', 'HTML', 'HTML2']
+    outputFormats = ['HTML2', 'stryker-dashboard']
     timestampedReports = false
     mutationThreshold = 100
     excludedClasses = ['io.github.mfvanek.pg.index.health.demo.config.*',
