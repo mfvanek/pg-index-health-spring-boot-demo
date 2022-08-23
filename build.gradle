@@ -28,11 +28,11 @@ configurations.all {
     exclude group: 'org.hamcrest'
 }
 
-def springdocVersion = '1.6.9'
+def springdocVersion = '1.6.10'
 def pgihVersion = '0.6.1'
 
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.2'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.3'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -53,7 +53,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.23.1'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
-    pitest 'io.github.wmaarts:pitest-mutation-testing-elements-plugin:0.4.0'
+    pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.2'
 }
 
 dependencyManagement {
@@ -179,7 +179,7 @@ pitest {
     junit5PluginVersion = '1.0.0'
     pitestVersion = '1.9.4'
     threads = 4
-    outputFormats = ['XML', 'HTML', 'HTML2']
+    outputFormats = System.getenv('STRYKER_DASHBOARD_API_KEY') != null ? ['stryker-dashboard'] : ['HTML']
     timestampedReports = false
     mutationThreshold = 100
     excludedClasses = ['io.github.mfvanek.pg.index.health.demo.config.*',
