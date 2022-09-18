@@ -8,19 +8,12 @@
 package io.github.mfvanek.pg.index.health.demo.controller;
 
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
-
-    @BeforeEach
-    void setUp() {
-        setUpBasicAuth();
-    }
 
     @Test
     void rootPageShouldRedirectToSwaggerUi() {
@@ -28,7 +21,7 @@ class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
                 .uri("/")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectStatus().isEqualTo(HttpStatus.FOUND)
+                .expectStatus().isFound()
                 .expectHeader().location(String.format("http://localhost:%d/actuator/swaggerui", port))
                 .expectBody()
                 .returnResult()

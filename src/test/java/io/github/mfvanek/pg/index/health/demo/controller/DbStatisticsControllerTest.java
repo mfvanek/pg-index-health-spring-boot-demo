@@ -8,12 +8,10 @@
 package io.github.mfvanek.pg.index.health.demo.controller;
 
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.time.OffsetDateTime;
@@ -24,11 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(OutputCaptureExtension.class)
 class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
-    @BeforeEach
-    void setUp() {
-        setUpBasicAuth();
-    }
-
     @Test
     void getLastResetDateShouldNotReturnNull(@Nonnull final CapturedOutput output) {
         final var startTestTimestamp = OffsetDateTime.now(clock);
@@ -38,7 +31,7 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
-                .expectStatus().isEqualTo(HttpStatus.OK)
+                .expectStatus().isOk()
                 .expectBody(OffsetDateTime.class)
                 .returnResult()
                 .getResponseBody();
@@ -59,7 +52,7 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(false)
                 .exchange()
-                .expectStatus().isEqualTo(HttpStatus.ACCEPTED)
+                .expectStatus().isAccepted()
                 .expectBody(OffsetDateTime.class)
                 .returnResult()
                 .getResponseBody();
@@ -83,7 +76,7 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(true)
                 .exchange()
-                .expectStatus().isEqualTo(HttpStatus.OK)
+                .expectStatus().isOk()
                 .expectBody(OffsetDateTime.class)
                 .returnResult()
                 .getResponseBody();
