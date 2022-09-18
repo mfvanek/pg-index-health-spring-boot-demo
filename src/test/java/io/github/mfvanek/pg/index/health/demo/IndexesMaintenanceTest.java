@@ -8,6 +8,7 @@
 package io.github.mfvanek.pg.index.health.demo;
 
 import io.github.mfvanek.pg.checks.host.ColumnsWithJsonTypeCheckOnHost;
+import io.github.mfvanek.pg.checks.host.ColumnsWithSerialTypesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ColumnsWithoutDescriptionCheckOnHost;
 import io.github.mfvanek.pg.checks.host.DuplicatedIndexesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ForeignKeysNotCoveredWithIndexCheckOnHost;
@@ -59,6 +60,8 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     private ColumnsWithoutDescriptionCheckOnHost columnsWithoutDescriptionCheck;
     @Autowired
     private ColumnsWithJsonTypeCheckOnHost columnsWithJsonTypeCheck;
+    @Autowired
+    private ColumnsWithSerialTypesCheckOnHost columnsWithSerialTypesCheck;
 
     @Test
     @DisplayName("Always check PostgreSQL version in your tests")
@@ -199,6 +202,13 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     @ValueSource(strings = {"public", "demo"})
     void getColumnsWithJsonTypeShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
         assertThat(columnsWithJsonTypeCheck.check(PgContext.of(schemaName)))
+                .isEmpty();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"public", "demo"})
+    void getColumnsWithSerialTypesShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
+        assertThat(columnsWithSerialTypesCheck.check(PgContext.of(schemaName)))
                 .isEmpty();
     }
 }
