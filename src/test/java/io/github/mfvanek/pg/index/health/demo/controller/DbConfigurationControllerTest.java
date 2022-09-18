@@ -10,29 +10,26 @@ package io.github.mfvanek.pg.index.health.demo.controller;
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
 import io.github.mfvanek.pg.settings.PgParam;
 import io.github.mfvanek.pg.settings.PgParamImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DbConfigurationControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
-    @BeforeEach
-    void setUp() {
-        setUpBasicAuth();
-    }
-
     @Test
     void getParamsWithDefaultValuesShouldReturnOk() {
-        final String url = String.format("http://localhost:%s/db/configuration", port);
-        final ResponseEntity<PgParam[]> response = restTemplate.getForEntity(url, PgParam[].class);
-
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.OK);
-        final PgParam[] responseBody = response.getBody();
-        assertThat(responseBody)
+        final var result = webTestClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("db", "configuration")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PgParam[].class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(result)
                 .containsExactly(
                         PgParamImpl.of("maintenance_work_mem", "64MB"),
                         PgParamImpl.of("random_page_cost", "4"),

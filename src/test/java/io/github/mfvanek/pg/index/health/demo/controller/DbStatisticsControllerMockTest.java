@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,12 +26,20 @@ class DbStatisticsControllerMockTest extends BasePgIndexHealthDemoSpringBootTest
     @ParameterizedTest
     @ValueSource(booleans = {false, true})
     void shouldReturnErrorWhenResetStatisticsUnsuccessful(final boolean wait) {
-        Mockito.when(databaseManagement.resetStatistics()).thenReturn(false);
-        final String url = String.format("http://localhost:%s/db/statistics/reset", port);
-        final ResponseEntity<Object> response = restTemplate.postForEntity(url, wait, Object.class);
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-        assertThat(response.getBody())
+        Mockito.when(databaseManagement.resetStatistics())
+                .thenReturn(false);
+        final var result = webTestClient.post()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("db", "statistics", "reset")
+                        .build())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(wait)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
+                .expectBody(Object.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(result)
                 .isNotNull()
                 .satisfies(b -> assertThat(b.toString()).contains("Internal Server Error"));
     }
