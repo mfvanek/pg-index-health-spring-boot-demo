@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 
 import java.time.OffsetDateTime;
 import javax.annotation.Nonnull;
@@ -31,12 +31,18 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void getLastResetDateShouldNotReturnNull(@Nonnull final CapturedOutput output) {
-        final OffsetDateTime startTestTimestamp = OffsetDateTime.now();
-        final String url = String.format("http://localhost:%s/db/statistics/reset", port);
-        final ResponseEntity<OffsetDateTime> response = restTemplate.getForEntity(url, OffsetDateTime.class);
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody())
+        final var startTestTimestamp = OffsetDateTime.now(clock);
+        final var result = webTestClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("db", "statistics", "reset")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.OK)
+                .expectBody(OffsetDateTime.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(result)
                 .isBefore(startTestTimestamp);
         assertThat(output.getOut())
                 .as("waitForStatisticsCollector should not be called")
@@ -46,12 +52,19 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     @Test
     void doResetWithoutWaitShouldReturnAccepted(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
-        final String url = String.format("http://localhost:%s/db/statistics/reset", port);
-        final ResponseEntity<OffsetDateTime> response = restTemplate.postForEntity(url, false, OffsetDateTime.class);
+        final var result = webTestClient.post()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("db", "statistics", "reset")
+                        .build())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(false)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.ACCEPTED)
+                .expectBody(OffsetDateTime.class)
+                .returnResult()
+                .getResponseBody();
         final long executionTime = System.nanoTime() - startTime;
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.ACCEPTED);
-        assertThat(response.getBody())
+        assertThat(result)
                 .isNotNull();
         assertThat(executionTime / 1_000_000L)
                 .isLessThan(1_000L); // less than 1000ms
@@ -63,12 +76,19 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     @Test
     void doResetWithWaitShouldReturnOk(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
-        final String url = String.format("http://localhost:%s/db/statistics/reset", port);
-        final ResponseEntity<OffsetDateTime> response = restTemplate.postForEntity(url, true, OffsetDateTime.class);
+        final var result = webTestClient.post()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("db", "statistics", "reset")
+                        .build())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(true)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.OK)
+                .expectBody(OffsetDateTime.class)
+                .returnResult()
+                .getResponseBody();
         final long executionTime = System.nanoTime() - startTime;
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody())
+        assertThat(result)
                 .isNotNull();
         assertThat(executionTime / 1_000_000L)
                 .isGreaterThanOrEqualTo(1_000L); // >= 1000ms

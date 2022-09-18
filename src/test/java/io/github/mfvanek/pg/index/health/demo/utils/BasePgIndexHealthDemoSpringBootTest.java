@@ -17,13 +17,13 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.time.Clock;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@Testcontainers
 public abstract class BasePgIndexHealthDemoSpringBootTest {
 
     @Autowired
@@ -36,7 +36,13 @@ public abstract class BasePgIndexHealthDemoSpringBootTest {
     protected int actuatorPort;
 
     @Autowired
+    protected Clock clock;
+
+    @Autowired
     protected TestRestTemplate restTemplate;
+
+    @Autowired
+    protected WebTestClient webTestClient;
 
     @Autowired
     private SecurityProperties securityProperties;

@@ -11,7 +11,7 @@ import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringB
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,13 +24,16 @@ class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void rootPageShouldRedirectToSwaggerUi() {
-        final String url = String.format("http://localhost:%s/", port);
-        final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.FOUND);
-        assertThat(response.getHeaders().getLocation())
-                .isNotNull()
-                .satisfies(l -> assertThat(l.getRawPath())
-                        .isEqualTo("/actuator/swaggerui"));
+        final var result = webTestClient.get()
+                .uri("/")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.FOUND)
+                .expectHeader().location(String.format("http://localhost:%d/actuator/swaggerui", port))
+                .expectBody()
+                .returnResult()
+                .getResponseBody();
+        assertThat(result)
+                .isNull();
     }
 }
