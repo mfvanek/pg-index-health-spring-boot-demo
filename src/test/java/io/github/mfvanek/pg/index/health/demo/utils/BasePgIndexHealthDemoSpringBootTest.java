@@ -10,20 +10,18 @@ package io.github.mfvanek.pg.index.health.demo.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalManagementPort;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.support.BasicAuthenticationInterceptor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
-import java.util.List;
+import java.time.Clock;
+import javax.annotation.Nonnull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@Testcontainers
 public abstract class BasePgIndexHealthDemoSpringBootTest {
 
     @Autowired
@@ -36,14 +34,15 @@ public abstract class BasePgIndexHealthDemoSpringBootTest {
     protected int actuatorPort;
 
     @Autowired
-    protected TestRestTemplate restTemplate;
+    protected Clock clock;
+
+    @Autowired
+    protected WebTestClient webTestClient;
 
     @Autowired
     private SecurityProperties securityProperties;
 
-    protected void setUpBasicAuth() {
-        final List<ClientHttpRequestInterceptor> interceptors = restTemplate.getRestTemplate().getInterceptors();
-        interceptors.add(new BasicAuthenticationInterceptor(
-                securityProperties.getUser().getName(), securityProperties.getUser().getPassword()));
+    protected final void setUpBasicAuth(@Nonnull final HttpHeaders httpHeaders) {
+        httpHeaders.setBasicAuth(securityProperties.getUser().getName(), securityProperties.getUser().getPassword());
     }
 }

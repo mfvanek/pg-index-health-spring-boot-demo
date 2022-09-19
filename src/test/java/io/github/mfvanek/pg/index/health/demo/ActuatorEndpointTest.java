@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 import javax.annotation.Nonnull;
 
@@ -21,11 +21,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
 
-    private static final String ACTUATOR_URL_TEMPLATE = "http://localhost:%s/actuator/%s";
+    private WebTestClient actuatorClient;
 
     @BeforeEach
     void setUp() {
-        setUpBasicAuth();
+        this.actuatorClient = WebTestClient.bindToServer()
+                .baseUrl("http://localhost:" + actuatorPort + "/actuator/")
+                .defaultHeaders(super::setUpBasicAuth)
+                .build();
     }
 
     @Test
@@ -36,29 +39,42 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-        "prometheus|jvm_threads_live_threads",
-        "health|{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}",
-        "health/liveness|{\"status\":\"UP\"}",
-        "health/readiness|{\"status\":\"UP\"}",
-        "liquibase|{\"contexts\":{\"pg-index-health-spring-boot-demo\":{\"liquibaseBeans\":{\"liquibase\":{\"changeSets\"",
-        "info|\"version\":"}, delimiter = '|')
-    void actuatorEndpointShouldReturnOk(@Nonnull final String endpointName, @Nonnull final String expectedSubstring) {
-        final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, endpointName);
-        final ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody())
+            "prometheus|jvm_threads_live_threads|text/plain",
+            "health|{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}|application/json",
+            "health/liveness|{\"status\":\"UP\"}|application/json",
+            "health/readiness|{\"status\":\"UP\"}|application/json",
+            "liquibase|{\"contexts\":{\"pg-index-health-spring-boot-demo\":{\"liquibaseBeans\":{\"liquibase\":{\"changeSets\"|application/json",
+            "info|\"version\":|application/json"}, delimiter = '|')
+    void actuatorEndpointShouldReturnOk(@Nonnull final String endpointName,
+                                        @Nonnull final String expectedSubstring,
+                                        @Nonnull final String mediaType) {
+        final var result = actuatorClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(endpointName)
+                        .build())
+                .accept(MediaType.valueOf(mediaType))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(result)
                 .contains(expectedSubstring);
     }
 
     @Test
     void swaggerUiEndpointShouldReturnFound() {
-        final String url = String.format(ACTUATOR_URL_TEMPLATE, actuatorPort, "swagger-ui");
-        final ResponseEntity<Void> response = restTemplate.getForEntity(url, Void.class);
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.FOUND);
-        assertThat(response.getHeaders().getLocation())
-                .hasToString("/actuator/swagger-ui/index.html");
+        final var result = actuatorClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("swagger-ui")
+                        .build())
+                .accept(MediaType.TEXT_HTML)
+                .exchange()
+                .expectStatus().isFound()
+                .expectHeader().location("/actuator/swagger-ui/index.html")
+                .expectBody()
+                .returnResult()
+                .getResponseBody();
+        assertThat(result).isNull();
     }
 }

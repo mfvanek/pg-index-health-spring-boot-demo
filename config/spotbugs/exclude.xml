@@ -14,4 +14,8 @@
         <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE"/>
         <Class name="io.github.mfvanek.pg.index.health.demo.config.DatabaseConfig"/>
     </Match>
+    <Match>
+        <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
+        <Class name="~.*Test"/>
+    </Match>
 </FindBugsFilter>

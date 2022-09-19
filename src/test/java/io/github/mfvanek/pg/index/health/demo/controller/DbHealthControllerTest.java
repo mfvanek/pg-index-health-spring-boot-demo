@@ -8,28 +8,27 @@
 package io.github.mfvanek.pg.index.health.demo.controller;
 
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DbHealthControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
-    @BeforeEach
-    void setUp() {
-        setUpBasicAuth();
-    }
-
     @Test
     void collectHealthDataShouldReturnOk() {
-        final String url = String.format("http://localhost:%s/db/health", port);
-        final ResponseEntity<String[]> response = restTemplate.getForEntity(url, String[].class);
+        final var result = webTestClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("db", "health")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String[].class)
+                .returnResult()
+                .getResponseBody();
 
-        assertThat(response.getStatusCode())
-                .isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody())
+        assertThat(result)
                 .containsExactly(
                         "invalid_indexes:1",
                         "duplicated_indexes:1",
