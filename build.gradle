@@ -13,7 +13,7 @@ plugins {
 }
 
 group = 'io.github.mfvanek'
-version = '0.6.3-SNAPSHOT'
+version = '0.6.3'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -30,8 +30,7 @@ configurations.all {
 }
 
 def springdocVersion = '1.6.11'
-def pgihVersion = '0.6.2'
-
+def pgihVersion = '0.6.3'
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.9.4'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
