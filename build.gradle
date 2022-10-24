@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-    id 'org.springframework.boot' version '2.7.4'
-    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'com.github.spotbugs' version '5.0.12'
     id 'checkstyle'
     id 'jacoco'
@@ -29,17 +29,17 @@ configurations.all {
     exclude group: 'org.hamcrest'
 }
 
-def springdocVersion = '1.6.11'
+def springdocVersion = '1.6.12'
 def pgihVersion = '0.6.3'
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.4'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.5'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.16.1'
+    implementation 'org.liquibase:liquibase-core:4.17.0'
     implementation 'org.postgresql:postgresql:42.5.0'
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
@@ -64,7 +64,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom 'org.testcontainers:testcontainers-bom:1.17.3'
+        mavenBom 'org.testcontainers:testcontainers-bom:1.17.5'
         mavenBom 'org.junit:junit-bom:5.9.1'
     }
 }
@@ -183,8 +183,8 @@ sonarqube {
 
 pitest {
     verbose = false
-    junit5PluginVersion = '1.0.0'
-    pitestVersion = '1.9.5'
+    junit5PluginVersion = '1.1.0'
+    pitestVersion = '1.9.8'
     threads = 4
     outputFormats = System.getenv('STRYKER_DASHBOARD_API_KEY') != null ? ['stryker-dashboard'] : ['HTML']
     timestampedReports = false
