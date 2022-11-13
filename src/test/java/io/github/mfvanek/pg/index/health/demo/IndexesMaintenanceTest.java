@@ -12,6 +12,7 @@ import io.github.mfvanek.pg.checks.host.ColumnsWithSerialTypesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ColumnsWithoutDescriptionCheckOnHost;
 import io.github.mfvanek.pg.checks.host.DuplicatedIndexesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ForeignKeysNotCoveredWithIndexCheckOnHost;
+import io.github.mfvanek.pg.checks.host.FunctionsWithoutDescriptionCheckOnHost;
 import io.github.mfvanek.pg.checks.host.IndexesWithNullValuesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.IntersectedIndexesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.InvalidIndexesCheckOnHost;
@@ -19,8 +20,8 @@ import io.github.mfvanek.pg.checks.host.TablesWithoutDescriptionCheckOnHost;
 import io.github.mfvanek.pg.checks.host.TablesWithoutPrimaryKeyCheckOnHost;
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
 import io.github.mfvanek.pg.model.PgContext;
+import io.github.mfvanek.pg.model.constraint.ForeignKey;
 import io.github.mfvanek.pg.model.index.DuplicatedIndexes;
-import io.github.mfvanek.pg.model.index.ForeignKey;
 import io.github.mfvanek.pg.model.index.Index;
 import io.github.mfvanek.pg.model.index.IndexWithNulls;
 import io.github.mfvanek.pg.model.index.IndexWithSize;
@@ -35,6 +36,7 @@ import javax.annotation.Nonnull;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
 
     private static final String BUYER_TABLE = "demo.buyer";
@@ -62,6 +64,8 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     private ColumnsWithJsonTypeCheckOnHost columnsWithJsonTypeCheck;
     @Autowired
     private ColumnsWithSerialTypesCheckOnHost columnsWithSerialTypesCheck;
+    @Autowired
+    private FunctionsWithoutDescriptionCheckOnHost functionsWithoutDescriptionCheck;
 
     @Test
     @DisplayName("Always check PostgreSQL version in your tests")
@@ -209,6 +213,13 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     @ValueSource(strings = {"public", "demo"})
     void getColumnsWithSerialTypesShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
         assertThat(columnsWithSerialTypesCheck.check(PgContext.of(schemaName)))
+                .isEmpty();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"public", "demo"})
+    void getFunctionsWithoutDescriptionShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
+        assertThat(functionsWithoutDescriptionCheck.check(PgContext.of(schemaName)))
                 .isEmpty();
     }
 }

@@ -13,7 +13,7 @@ plugins {
 }
 
 group = 'io.github.mfvanek'
-version = '0.6.3'
+version = '0.7.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -30,16 +30,16 @@ configurations.all {
 }
 
 def springdocVersion = '1.6.12'
-def pgihVersion = '0.6.3'
+def pgihVersion = '0.7.0'
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.5'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.0'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.17.0'
+    implementation 'org.liquibase:liquibase-core:4.17.2'
     implementation 'org.postgresql:postgresql:42.5.0'
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
