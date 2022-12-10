@@ -168,7 +168,7 @@ check.dependsOn jacocoTestReport, jacocoTestCoverageVerification
 
 pmd {
     consoleOutput = true
-    toolVersion = "6.52.0"
+    toolVersion = '6.52.0'
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = []
 }
@@ -184,7 +184,7 @@ sonarqube {
 pitest {
     verbosity = 'DEFAULT'
     junit5PluginVersion = '1.1.0'
-    pitestVersion = '1.10.3'
+    pitestVersion = '1.9.11'
     threads = 4
     outputFormats = System.getenv('STRYKER_DASHBOARD_API_KEY') != null ? ['stryker-dashboard'] : ['HTML']
     timestampedReports = false
