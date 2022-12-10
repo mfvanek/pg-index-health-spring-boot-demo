@@ -14,20 +14,23 @@ See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-heal
 
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmfvanek%2Fpg-index-health-spring-boot-demo%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/mfvanek/pg-index-health-spring-boot-demo/master)
 
-### Endpoints
+## Endpoints
 Use `demouser/testpwd123` in order to access Actuator endpoints.
 
-#### Swagger UI
+### Swagger UI
 http://localhost:8081/actuator/swagger-ui
 
-#### Health
+### Health
 http://localhost:8081/actuator/health
 
-#### Info
+### Info
 http://localhost:8081/actuator/info
 
-#### Metrics
+### Metrics
 http://localhost:8081/actuator/prometheus
 
-#### Liquibase
+### Liquibase
 http://localhost:8081/actuator/liquibase
+
+## Requirements
+Java 17+
