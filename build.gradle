@@ -30,7 +30,7 @@ configurations.all {
 }
 
 def springdocVersion = '1.6.13'
-def pgihVersion = '0.7.0'
+def pgihVersion = '0.8.0'
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.10.2'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
