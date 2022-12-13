@@ -6,6 +6,9 @@ See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-heal
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/mfvanek/pg-index-health-spring-boot-demo/blob/master/LICENSE "Apache License 2.0")
 [![codecov](https://codecov.io/gh/mfvanek/pg-index-health-spring-boot-demo/branch/master/graph/badge.svg?token=NEFMS9CA2N)](https://codecov.io/gh/mfvanek/pg-index-health-spring-boot-demo)
 
+[![Total lines](https://tokei.rs/b1/github/mfvanek/pg-index-health-spring-boot-demo)](https://github.com/mfvanek/pg-index-health-spring-boot-demo)
+[![Files](https://tokei.rs/b1/github/mfvanek/pg-index-health-spring-boot-demo?category=files)](https://github.com/mfvanek/pg-index-health-spring-boot-demo)
+
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=mfvanek_pg-index-health-spring-boot-demo&metric=bugs)](https://sonarcloud.io/summary/new_code?id=mfvanek_pg-index-health-spring-boot-demo)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mfvanek_pg-index-health-spring-boot-demo&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=mfvanek_pg-index-health-spring-boot-demo)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=mfvanek_pg-index-health-spring-boot-demo&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=mfvanek_pg-index-health-spring-boot-demo)
