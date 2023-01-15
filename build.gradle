@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-    id 'org.springframework.boot' version '2.7.6'
+    id 'org.springframework.boot' version '2.7.7'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.github.spotbugs' version '5.0.13'
     id 'checkstyle'
@@ -8,7 +8,7 @@ plugins {
     id 'pmd'
     id 'org.sonarqube' version '3.5.0.2730'
     id 'info.solidsoft.pitest' version '1.9.11'
-    id 'io.freefair.lombok' version '6.6'
+    id 'io.freefair.lombok' version '6.6.1'
     id 'com.google.osdetector' version '1.7.1'
 }
 
@@ -29,17 +29,17 @@ configurations.all {
     exclude group: 'org.hamcrest'
 }
 
-def springdocVersion = '1.6.13'
+def springdocVersion = '1.6.14'
 def pgihVersion = '0.8.0'
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.2'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.3'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.17.2'
+    implementation 'org.liquibase:liquibase-core:4.18.0'
     implementation 'org.postgresql:postgresql:42.5.1'
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
@@ -51,14 +51,14 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
-    testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
 
     // https://github.com/netty/netty/issues/11020
     if (osdetector.arch == "aarch_64") {
         testImplementation 'io.netty:netty-all:4.1.82.Final'
     }
 
-    pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.2'
+    pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.4'
     checkstyle 'com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1'
 }
 
@@ -82,7 +82,7 @@ springBoot {
 }
 
 checkstyle {
-    toolVersion '10.5.0'
+    toolVersion '10.6.0'
     configFile file("config/checkstyle/checkstyle.xml")
     ignoreFailures = false
     maxWarnings = 0
@@ -168,7 +168,7 @@ check.dependsOn jacocoTestReport, jacocoTestCoverageVerification
 
 pmd {
     consoleOutput = true
-    toolVersion = '6.52.0'
+    toolVersion = '6.53.0'
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = []
 }
@@ -183,8 +183,8 @@ sonarqube {
 
 pitest {
     verbosity = 'DEFAULT'
-    junit5PluginVersion = '1.1.0'
-    pitestVersion = '1.9.11'
+    junit5PluginVersion = '1.1.2'
+    pitestVersion = '1.10.4'
     threads = 4
     outputFormats = System.getenv('STRYKER_DASHBOARD_API_KEY') != null ? ['stryker-dashboard'] : ['HTML']
     timestampedReports = false
