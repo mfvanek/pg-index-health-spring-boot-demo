@@ -39,7 +39,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.18.0'
+    implementation 'org.liquibase:liquibase-core:4.19.0'
     implementation 'org.postgresql:postgresql:42.5.1'
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
@@ -65,7 +65,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom 'org.testcontainers:testcontainers-bom:1.17.6'
-        mavenBom 'org.junit:junit-bom:5.9.1'
+        mavenBom 'org.junit:junit-bom:5.9.2'
     }
 }
 
@@ -184,7 +184,7 @@ sonarqube {
 pitest {
     verbosity = 'DEFAULT'
     junit5PluginVersion = '1.1.2'
-    pitestVersion = '1.11.0'
+    pitestVersion = '1.10.4'
     threads = 4
     outputFormats = System.getenv('STRYKER_DASHBOARD_API_KEY') != null ? ['stryker-dashboard'] : ['HTML']
     timestampedReports = false
