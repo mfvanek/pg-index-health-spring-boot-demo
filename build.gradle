@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-    id 'org.springframework.boot' version '2.7.7'
+    id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.github.spotbugs' version '5.0.13'
     id 'checkstyle'
@@ -82,7 +82,7 @@ springBoot {
 }
 
 checkstyle {
-    toolVersion '10.6.0'
+    toolVersion '10.7.0'
     configFile file("config/checkstyle/checkstyle.xml")
     ignoreFailures = false
     maxWarnings = 0
@@ -168,7 +168,7 @@ check.dependsOn jacocoTestReport, jacocoTestCoverageVerification
 
 pmd {
     consoleOutput = true
-    toolVersion = '6.53.0'
+    toolVersion = '6.54.0'
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = []
 }
@@ -184,7 +184,7 @@ sonarqube {
 pitest {
     verbosity = 'DEFAULT'
     junit5PluginVersion = '1.1.2'
-    pitestVersion = '1.10.4'
+    pitestVersion = '1.11.0'
     threads = 4
     outputFormats = System.getenv('STRYKER_DASHBOARD_API_KEY') != null ? ['stryker-dashboard'] : ['HTML']
     timestampedReports = false
