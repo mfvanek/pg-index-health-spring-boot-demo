@@ -10,7 +10,7 @@ plugins {
     id 'pmd'
     id 'org.sonarqube' version '4.0.0.2929'
     id 'info.solidsoft.pitest' version '1.9.11'
-    id 'io.freefair.lombok' version '6.6.1'
+    id 'io.freefair.lombok' version '6.6.3'
     id 'com.google.osdetector' version '1.7.1'
     id 'nebula.lint' version '18.0.3'
     id 'net.ltgt.errorprone' version '3.0.1'
