@@ -1,6 +1,8 @@
+import com.github.spotbugs.snom.SpotBugsTask
+
 plugins {
 	id 'java'
-    id 'org.springframework.boot' version '2.7.8'
+    id 'org.springframework.boot' version '2.7.9'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.github.spotbugs' version '5.0.13'
     id 'checkstyle'
@@ -10,14 +12,21 @@ plugins {
     id 'info.solidsoft.pitest' version '1.9.11'
     id 'io.freefair.lombok' version '6.6.1'
     id 'com.google.osdetector' version '1.7.1'
+    id 'nebula.lint' version '18.0.3'
+    id 'net.ltgt.errorprone' version '3.0.1'
 }
 
 group = 'io.github.mfvanek'
-version = '0.8.0-SNAPSHOT'
+version = '0.9.0-SNAPSHOT'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+}
+tasks.withType(JavaCompile).configureEach {
+    options.errorprone {
+        disableWarningsInGeneratedCode = true
+    }
 }
 
 repositories {
@@ -25,12 +34,13 @@ repositories {
 	mavenCentral()
 }
 
-configurations.all {
+configurations.configureEach {
     exclude group: 'org.hamcrest'
 }
 
 def springdocVersion = '1.6.14'
 def pgihVersion = '0.8.0'
+def postgresqlVersion = '42.5.4'
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.10.3'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -40,7 +50,7 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
     implementation 'org.liquibase:liquibase-core:4.19.0'
-    implementation 'org.postgresql:postgresql:42.5.1'
+    runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
     implementation "io.github.mfvanek:pg-index-health:$pgihVersion"
@@ -52,14 +62,16 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
+    testImplementation "org.postgresql:postgresql:${postgresqlVersion}"
 
     // https://github.com/netty/netty/issues/11020
     if (osdetector.arch == "aarch_64") {
         testImplementation 'io.netty:netty-all:4.1.82.Final'
     }
 
-    pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.4'
+    pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.5'
     checkstyle 'com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1'
+    errorprone 'com.google.errorprone:error_prone_core:2.18.0'
 }
 
 dependencyManagement {
@@ -95,21 +107,21 @@ checkstyleTest {
     source ='src/test/java'
 }
 
-spotbugsMain {
-    reports {
-        html.enabled = true
-    }
-}
-spotbugsTest {
-    reports {
-        html.enabled = true
-    }
-}
 spotbugs {
     showProgress = true
     effort = 'max'
     reportLevel = 'low'
     excludeFilter = file("config/spotbugs/exclude.xml")
+}
+tasks.withType(SpotBugsTask).configureEach {
+    reports {
+        xml {
+            required.set(true)
+        }
+        html {
+            required.set(true)
+        }
+    }
 }
 
 def jacocoExclude = ['**/PgIndexHealthSpringBootDemoApplication.class']
@@ -179,6 +191,12 @@ sonarqube {
         property "sonar.organization", "mfvanek"
         property "sonar.host.url", "https://sonarcloud.io"
     }
+}
+
+gradleLint {
+    rules = ['all-dependency']
+    alwaysRun = false
+    autoLintAfterFailure = false
 }
 
 pitest {
