@@ -49,7 +49,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.19.0'
+    implementation 'org.liquibase:liquibase-core:4.19.1'
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
