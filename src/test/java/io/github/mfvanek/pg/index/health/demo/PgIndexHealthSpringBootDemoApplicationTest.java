@@ -23,6 +23,8 @@ class PgIndexHealthSpringBootDemoApplicationTest extends BasePgIndexHealthDemoSp
 
     @Test
     void contextLoads() {
+        assertThat(context.getEnvironment().containsProperty("spring.datasource.url"))
+                .isTrue();
         assertThat(context.getBean("highAvailabilityPgConnection"))
                 .isNotNull()
                 .isInstanceOf(HighAvailabilityPgConnection.class);
