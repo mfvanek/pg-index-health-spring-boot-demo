@@ -21,19 +21,19 @@ See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-heal
 Use `demouser/testpwd123` in order to access Actuator endpoints.
 
 ### Swagger UI
-http://localhost:8081/actuator/swagger-ui
+http://localhost:8090/actuator/swagger-ui
 
 ### Health
-http://localhost:8081/actuator/health
+http://localhost:8090/actuator/health
 
 ### Info
-http://localhost:8081/actuator/info
+http://localhost:8090/actuator/info
 
 ### Metrics
-http://localhost:8081/actuator/prometheus
+http://localhost:8090/actuator/prometheus
 
 ### Liquibase
-http://localhost:8081/actuator/liquibase
+http://localhost:8090/actuator/liquibase
 
 ## Requirements
 Java 17+

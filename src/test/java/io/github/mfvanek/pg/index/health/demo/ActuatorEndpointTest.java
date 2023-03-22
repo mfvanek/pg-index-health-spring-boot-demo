@@ -77,4 +77,20 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
                 .getResponseBody();
         assertThat(result).isNull();
     }
+
+    @Test
+    void readinessProbeShouldBeCollectedFromApplicationMainPort() {
+        final var result = webTestClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment("readyz")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(result)
+                .isEqualTo("{\"status\":\"UP\"}");
+    }
 }
