@@ -114,12 +114,8 @@ spotbugs {
 }
 tasks.withType(SpotBugsTask).configureEach {
     reports {
-        xml {
-            required.set(true)
-        }
-        html {
-            required.set(true)
-        }
+        xml.required = true
+        html.required = true
     }
 }
 
@@ -132,8 +128,8 @@ jacocoTestReport {
         }))
     }
     reports {
-        xml.enabled true
-        html.enabled true
+        xml.required = true
+        html.required = true
     }
 }
 jacocoTestCoverageVerification {
