@@ -9,8 +9,10 @@ package io.github.mfvanek.pg.index.health.demo.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
@@ -24,7 +26,15 @@ import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
-public class DatabaseConfig {
+@Profile("postgres")
+public class PostgresConfig {
+
+    @Value("${postgres.username}")
+    String username;
+    @Value("${postgres.password}")
+    String password;
+    @Value("${postgres.database}")
+    String database;
 
     @SuppressWarnings({"java:S2095", "java:S1452"})
     @Bean(initMethod = "start", destroyMethod = "stop")

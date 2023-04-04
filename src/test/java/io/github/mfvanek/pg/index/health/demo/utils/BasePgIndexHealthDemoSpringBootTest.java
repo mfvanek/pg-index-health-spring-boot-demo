@@ -21,7 +21,7 @@ import java.time.Clock;
 import javax.annotation.Nonnull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles(profiles = {"test"})
 public abstract class BasePgIndexHealthDemoSpringBootTest {
 
     @Autowired
