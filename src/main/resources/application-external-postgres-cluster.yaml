@@ -1,0 +1,9 @@
+cluster:
+    primary:
+        username: "customuser"
+        password: "custompassword"
+        connectionString: "jdbc:postgresql://localhost:15432/customdatabase"
+    secondary:
+        username: "customuser"
+        password: "custompassword"
+        connectionString: "jdbc:postgresql://localhost:15433/customdatabase"

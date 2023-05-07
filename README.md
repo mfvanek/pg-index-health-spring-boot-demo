@@ -1,4 +1,5 @@
 # pg-index-health-spring-boot-demo
+
 Demo app for [pg-index-health library](https://github.com/mfvanek/pg-index-health) (with Spring and Spring Boot).  
 See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-health-test-starter) project.
 
@@ -18,22 +19,47 @@ See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-heal
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmfvanek%2Fpg-index-health-spring-boot-demo%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/mfvanek/pg-index-health-spring-boot-demo/master)
 
 ## Endpoints
+
 Use `demouser/testpwd123` in order to access Actuator endpoints.
 
 ### Swagger UI
+
 http://localhost:8090/actuator/swagger-ui
 
 ### Health
+
 http://localhost:8090/actuator/health
 
 ### Info
+
 http://localhost:8090/actuator/info
 
 ### Metrics
+
 http://localhost:8090/actuator/prometheus
 
 ### Liquibase
+
 http://localhost:8090/actuator/liquibase
 
 ## Requirements
+
 Java 17+
+
+## Starting guide
+
+Use one of listed profiles to start application.
+
+### postgres
+
+Creates a single connection to a single database created by testcontainers.
+
+### postgres-cluster
+
+Creates a connection to the master and replica in the cluster created with testcontainers.
+
+### external-postgres-cluster
+
+Creates a connection to the master and replica in the cluster.
+
+You should manually start cluster using configuration placed in docker/docker-compose.cluster.yaml.

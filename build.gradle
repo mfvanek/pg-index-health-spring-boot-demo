@@ -1,7 +1,7 @@
 import com.github.spotbugs.snom.SpotBugsTask
 
 plugins {
-	id 'java'
+    id 'java'
     id 'org.springframework.boot' version '2.7.9'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.github.spotbugs' version '5.0.14'
@@ -29,22 +29,20 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 repositories {
-	mavenLocal()
-	mavenCentral()
+    mavenLocal()
+    mavenCentral()
 }
 
-configurations.configureEach {
-    exclude group: 'org.hamcrest'
-}
 
 def springdocVersion = '1.7.0'
-def pgihVersion = '0.9.0'
+def pgihVersion = '0.9.1-SNAPSHOT'
+def pgihTestStarterVersion = '0.9.0.1'
 def postgresqlVersion = '42.6.0'
 dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.10.6'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	  implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	  implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
@@ -53,13 +51,14 @@ dependencies {
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
     implementation "io.github.mfvanek:pg-index-health:$pgihVersion"
+    implementation "io.github.mfvanek:pg-index-health-testing:$pgihVersion"
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
-	testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihTestStarterVersion"
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
     testImplementation "org.postgresql:postgresql:${postgresqlVersion}"
 
@@ -81,7 +80,7 @@ dependencyManagement {
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
     dependsOn checkstyleMain, checkstyleTest, pmdMain, pmdTest, spotbugsMain, spotbugsTest
     maxParallelForks = 1
     finalizedBy jacocoTestReport
@@ -100,10 +99,10 @@ checkstyle {
     maxErrors = 0
 }
 checkstyleMain {
-    source ='src/main/java'
+    source = 'src/main/java'
 }
 checkstyleTest {
-    source ='src/test/java'
+    source = 'src/test/java'
 }
 
 spotbugs {

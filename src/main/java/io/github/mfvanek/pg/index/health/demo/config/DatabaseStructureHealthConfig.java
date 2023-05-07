@@ -22,18 +22,11 @@ import io.github.mfvanek.pg.settings.maintenance.ConfigurationMaintenanceOnHostI
 import io.github.mfvanek.pg.statistics.maintenance.StatisticsMaintenanceOnHostImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.testcontainers.containers.JdbcDatabaseContainer;
 
 import javax.annotation.Nonnull;
 
 @Configuration(proxyBeanMethods = false)
 public class DatabaseStructureHealthConfig {
-
-    @Bean
-    public ConnectionCredentials connectionCredentials(@Nonnull final JdbcDatabaseContainer<?> jdbcDatabaseContainer) {
-        return ConnectionCredentials.ofUrl(jdbcDatabaseContainer.getJdbcUrl(),
-                jdbcDatabaseContainer.getUsername(), jdbcDatabaseContainer.getPassword());
-    }
 
     @Bean
     public HighAvailabilityPgConnectionFactory highAvailabilityPgConnectionFactory() {

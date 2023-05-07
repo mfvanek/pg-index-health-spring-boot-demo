@@ -1,0 +1,50 @@
+version: '3'
+services:
+    pg-0:
+        image: docker.io/bitnami/postgresql-repmgr:14
+        ports:
+            - "15432:5432"
+        environment:
+            - POSTGRESQL_POSTGRES_PASSWORD=adminpassword
+            - POSTGRESQL_USERNAME=customuser
+            - POSTGRESQL_PASSWORD=custompassword
+            - POSTGRESQL_DATABASE=customdatabase
+            - REPMGR_PASSWORD=repmgrpassword
+            - REPMGR_PRIMARY_HOST=pg-0
+            - REPMGR_PRIMARY_PORT=5432
+            - REPMGR_PARTNER_NODES=pg-0,pg-1:5432
+            - REPMGR_NODE_NAME=pg-0
+            - REPMGR_NODE_NETWORK_NAME=pg-0
+            - REPMGR_PORT_NUMBER=5432
+        networks:
+            postgres:
+                ipv4_address: 172.25.0.10
+
+    pg-1:
+        image: docker.io/bitnami/postgresql-repmgr:14
+        ports:
+            - "15433:5432"
+        environment:
+            - POSTGRESQL_POSTGRES_PASSWORD=adminpassword
+            - POSTGRESQL_USERNAME=customuser
+            - POSTGRESQL_PASSWORD=custompassword
+            - POSTGRESQL_DATABASE=customdatabase
+            - REPMGR_PASSWORD=repmgrpassword
+            - REPMGR_PRIMARY_HOST=pg-0
+            - REPMGR_PRIMARY_PORT=5432
+            - REPMGR_PARTNER_NODES=pg-0,pg-1:5432
+            - REPMGR_NODE_NAME=pg-1
+            - REPMGR_NODE_NETWORK_NAME=pg-1
+            - REPMGR_PORT_NUMBER=5432
+        networks:
+            postgres:
+                ipv4_address: 172.25.0.11
+
+networks:
+    postgres:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.25.0.0/16
+                  gateway: 172.25.0.1
