@@ -12,7 +12,7 @@ plugins {
     id 'info.solidsoft.pitest' version '1.9.11'
     id 'io.freefair.lombok' version '8.0.1'
     id 'com.google.osdetector' version '1.7.3'
-    id 'net.ltgt.errorprone' version '3.0.1'
+    id 'net.ltgt.errorprone' version '3.1.0'
 }
 
 group = 'io.github.mfvanek'
@@ -39,14 +39,14 @@ def pgihVersion = '0.9.1-SNAPSHOT'
 def pgihTestStarterVersion = '0.9.0.1'
 def postgresqlVersion = '42.6.0'
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.5'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.6'
+	  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	  implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	  implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
     implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.20.0'
+    implementation 'org.liquibase:liquibase-core:4.21.1'
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
     implementation 'org.testcontainers:testcontainers'
     implementation 'org.testcontainers:postgresql'
@@ -64,7 +64,7 @@ dependencies {
 
     // https://github.com/netty/netty/issues/11020
     if (osdetector.arch == "aarch_64") {
-        testImplementation 'io.netty:netty-all:4.1.90.Final'
+        testImplementation 'io.netty:netty-all:4.1.92.Final'
     }
 
     pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.5'
@@ -74,8 +74,8 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom 'org.testcontainers:testcontainers-bom:1.17.6'
-        mavenBom 'org.junit:junit-bom:5.9.2'
+        mavenBom 'org.testcontainers:testcontainers-bom:1.18.0'
+        mavenBom 'org.junit:junit-bom:5.9.3'
     }
 }
 
