@@ -41,7 +41,7 @@ def springdocVersion = '1.7.0'
 def pgihVersion = '0.9.1'
 def postgresqlVersion = '42.6.0'
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.10.6'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.0'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
