@@ -1,18 +1,21 @@
+import com.github.spotbugs.snom.Confidence
+import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
+import info.solidsoft.gradle.pitest.PitestTask
 
 plugins {
-	id "java"
-    id "org.springframework.boot" version "2.7.9"
-    id "io.spring.dependency-management" version "1.1.0"
-    id "com.github.spotbugs" version "5.0.14"
-    id "checkstyle"
-    id "jacoco"
-    id "pmd"
-    id "org.sonarqube" version "4.0.0.2929"
-    id "info.solidsoft.pitest" version "1.9.11"
-    id "io.freefair.lombok" version "8.0.1"
-    id "com.google.osdetector" version "1.7.3"
-    id "net.ltgt.errorprone" version "3.1.0"
+	id("java")
+    id("org.springframework.boot") version "2.7.9"
+    id("io.spring.dependency-management") version "1.1.0"
+    id("com.github.spotbugs") version "5.0.14"
+    id("checkstyle")
+    id("jacoco")
+    id("pmd")
+    id("org.sonarqube") version "4.0.0.2929"
+    id("info.solidsoft.pitest") version "1.9.11"
+    id("io.freefair.lombok") version "8.0.1"
+    id("com.google.osdetector") version "1.7.3"
+    id("net.ltgt.errorprone") version "3.1.0"
 }
 
 group = "io.github.mfvanek"
@@ -23,7 +26,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 tasks.withType(JavaCompile).configureEach {
-    options.errorprone.disableWarningsInGeneratedCode = true
+    options.errorprone.disableWarningsInGeneratedCode.set(true)
 }
 
 repositories {
@@ -32,7 +35,7 @@ repositories {
 }
 
 configurations.configureEach {
-    exclude group: "org.hamcrest"
+    exclude(group: "org.hamcrest")
 }
 
 def springdocVersion = "1.7.0"
@@ -94,10 +97,10 @@ checkstyle {
 }
 
 spotbugs {
-    showProgress = true
-    effort = "max"
-    reportLevel = "low"
-    excludeFilter = file("config/spotbugs/exclude.xml")
+    showProgress.set(true)
+    effort.set(Effort.MAX)
+    reportLevel.set(Confidence.LOW)
+    excludeFilter.set(file("config/spotbugs/exclude.xml"))
 }
 tasks.withType(SpotBugsTask).configureEach {
     reports {
@@ -115,8 +118,8 @@ jacocoTestReport {
         }))
     }
     reports {
-        xml.required = true
-        html.required = true
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 jacocoTestCoverageVerification {
@@ -171,9 +174,9 @@ pmd {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "mfvanek_pg-index-health-spring-boot-demo"
-        property "sonar.organization", "mfvanek"
-        property "sonar.host.url", "https://sonarcloud.io"
+        property("sonar.projectKey", "mfvanek_pg-index-health-spring-boot-demo")
+        property("sonar.organization", "mfvanek")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
 
@@ -189,10 +192,10 @@ pitest {
                        "io.github.mfvanek.pg.index.health.demo.PgIndexHealthSpringBootDemoApplication"]
     excludedTestClasses = ["io.github.mfvanek.pg.index.health.demo.ActuatorEndpointTest"]
 }
-
-tasks.named("pitest").configure {
+tasks.withType(PitestTask).configureEach {
     mustRunAfter(test)
 }
+
 build {
     dependsOn("pitest")
 }
