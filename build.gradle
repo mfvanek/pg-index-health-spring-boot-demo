@@ -1,31 +1,29 @@
 import com.github.spotbugs.snom.SpotBugsTask
 
 plugins {
-	id 'java'
-    id 'org.springframework.boot' version '2.7.9'
-    id 'io.spring.dependency-management' version '1.1.0'
-    id 'com.github.spotbugs' version '5.0.14'
-    id 'checkstyle'
-    id 'jacoco'
-    id 'pmd'
-    id 'org.sonarqube' version '4.0.0.2929'
-    id 'info.solidsoft.pitest' version '1.9.11'
-    id 'io.freefair.lombok' version '8.0.1'
-    id 'com.google.osdetector' version '1.7.3'
-    id 'net.ltgt.errorprone' version '3.1.0'
+	id "java"
+    id "org.springframework.boot" version "2.7.9"
+    id "io.spring.dependency-management" version "1.1.0"
+    id "com.github.spotbugs" version "5.0.14"
+    id "checkstyle"
+    id "jacoco"
+    id "pmd"
+    id "org.sonarqube" version "4.0.0.2929"
+    id "info.solidsoft.pitest" version "1.9.11"
+    id "io.freefair.lombok" version "8.0.1"
+    id "com.google.osdetector" version "1.7.3"
+    id "net.ltgt.errorprone" version "3.1.0"
 }
 
-group = 'io.github.mfvanek'
-version = '0.9.2-SNAPSHOT'
+group = "io.github.mfvanek"
+version = "0.9.2-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
 tasks.withType(JavaCompile).configureEach {
-    options.errorprone {
-        disableWarningsInGeneratedCode = true
-    }
+    options.errorprone.disableWarningsInGeneratedCode = true
 }
 
 repositories {
@@ -34,58 +32,53 @@ repositories {
 }
 
 configurations.configureEach {
-    exclude group: 'org.hamcrest'
+    exclude group: "org.hamcrest"
 }
 
-def springdocVersion = '1.7.0'
-def pgihVersion = '0.9.1'
-def postgresqlVersion = '42.6.0'
+def springdocVersion = "1.7.0"
+def pgihVersion = "0.9.1"
+def postgresqlVersion = "42.6.0"
 dependencies {
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.0'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
-    implementation "org.springdoc:springdoc-openapi-security:$springdocVersion"
-    implementation 'org.liquibase:liquibase-core:4.22.0'
-    runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
-    implementation 'org.testcontainers:testcontainers'
-    implementation 'org.testcontainers:postgresql'
-    implementation "io.github.mfvanek:pg-index-health:$pgihVersion"
-    implementation 'com.google.code.findbugs:jsr305:3.0.2'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation("io.micrometer:micrometer-registry-prometheus:1.11.0")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springdoc:springdoc-openapi-ui:$springdocVersion")
+    implementation("org.springdoc:springdoc-openapi-security:$springdocVersion")
+    implementation("org.liquibase:liquibase-core:4.22.0")
+    runtimeOnly("org.postgresql:postgresql:${postgresqlVersion}")
+    implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:1.18.1"))
+    implementation("org.testcontainers:testcontainers")
+    implementation("org.testcontainers:postgresql")
+    implementation("io.github.mfvanek:pg-index-health:$pgihVersion")
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
-	testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation "io.github.mfvanek:pg-index-health-test-starter:$pgihVersion"
-    testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
-    testImplementation "org.postgresql:postgresql:${postgresqlVersion}"
+    testImplementation(enforcedPlatform("org.junit:junit-bom:5.9.3"))
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+	testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("io.github.mfvanek:pg-index-health-test-starter:$pgihVersion")
+    testImplementation("org.apache.httpcomponents:httpclient:4.5.14")
+    testImplementation("org.postgresql:postgresql:${postgresqlVersion}")
 
     // https://github.com/netty/netty/issues/11020
     if (osdetector.arch == "aarch_64") {
-        testImplementation 'io.netty:netty-all:4.1.92.Final'
+        testImplementation("io.netty:netty-all:4.1.92.Final")
     }
 
-    pitest 'it.mulders.stryker:pit-dashboard-reporter:0.1.5'
-    checkstyle 'com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1'
-    errorprone 'com.google.errorprone:error_prone_core:2.19.1'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'org.testcontainers:testcontainers-bom:1.18.1'
-        mavenBom 'org.junit:junit-bom:5.9.3'
-    }
+    pitest("it.mulders.stryker:pit-dashboard-reporter:0.1.5")
+    checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
+    errorprone("com.google.errorprone:error_prone_core:2.19.1")
 }
 
 test {
 	useJUnitPlatform()
-    dependsOn checkstyleMain, checkstyleTest, pmdMain, pmdTest, spotbugsMain, spotbugsTest
+    dependsOn(checkstyleMain, checkstyleTest, pmdMain, pmdTest, spotbugsMain, spotbugsTest)
     maxParallelForks = 1
-    finalizedBy jacocoTestReport
-    finalizedBy jacocoTestCoverageVerification
+    finalizedBy(jacocoTestReport)
+    finalizedBy(jacocoTestCoverageVerification)
 }
 
 springBoot {
@@ -93,23 +86,17 @@ springBoot {
 }
 
 checkstyle {
-    toolVersion '10.7.0'
-    configFile file("config/checkstyle/checkstyle.xml")
+    toolVersion = "10.7.0"
+    configFile = file("config/checkstyle/checkstyle.xml")
     ignoreFailures = false
     maxWarnings = 0
     maxErrors = 0
 }
-checkstyleMain {
-    source ='src/main/java'
-}
-checkstyleTest {
-    source ='src/test/java'
-}
 
 spotbugs {
     showProgress = true
-    effort = 'max'
-    reportLevel = 'low'
+    effort = "max"
+    reportLevel = "low"
     excludeFilter = file("config/spotbugs/exclude.xml")
 }
 tasks.withType(SpotBugsTask).configureEach {
@@ -119,9 +106,9 @@ tasks.withType(SpotBugsTask).configureEach {
     }
 }
 
-def jacocoExclude = ['**/PgIndexHealthSpringBootDemoApplication.class']
+def jacocoExclude = ["**/PgIndexHealthSpringBootDemoApplication.class"]
 jacocoTestReport {
-    dependsOn test
+    dependsOn(test)
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: jacocoExclude)
@@ -133,7 +120,7 @@ jacocoTestReport {
     }
 }
 jacocoTestCoverageVerification {
-    dependsOn test
+    dependsOn(test)
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: jacocoExclude)
@@ -142,40 +129,42 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                counter = 'CLASS'
-                value = 'MISSEDCOUNT'
+                counter = "CLASS"
+                value = "MISSEDCOUNT"
                 maximum = 0
             }
         }
         rule {
             limit {
-                counter = 'METHOD'
-                value = 'MISSEDCOUNT'
+                counter = "METHOD"
+                value = "MISSEDCOUNT"
                 maximum = 0
             }
         }
         rule {
             limit {
-                counter = 'LINE'
-                value = 'MISSEDCOUNT'
+                counter = "LINE"
+                value = "MISSEDCOUNT"
                 maximum = 1
             }
         }
         rule {
             limit {
-                counter = 'INSTRUCTION'
-                value = 'COVEREDRATIO'
+                counter = "INSTRUCTION"
+                value = "COVEREDRATIO"
                 minimum = 0.97
             }
         }
     }
 }
 
-check.dependsOn jacocoTestReport, jacocoTestCoverageVerification
+check {
+    dependsOn(jacocoTestReport, jacocoTestCoverageVerification)
+}
 
 pmd {
     consoleOutput = true
-    toolVersion = '6.54.0'
+    toolVersion = "6.54.0"
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = []
 }
@@ -189,19 +178,21 @@ sonarqube {
 }
 
 pitest {
-    verbosity = 'DEFAULT'
-    junit5PluginVersion = '1.1.2'
-    pitestVersion = '1.10.4'
+    verbosity = "DEFAULT"
+    junit5PluginVersion = "1.1.2"
+    pitestVersion = "1.10.4"
     threads = 4
-    outputFormats = System.getenv('STRYKER_DASHBOARD_API_KEY') != null ? ['stryker-dashboard'] : ['HTML']
+    outputFormats = System.getenv("STRYKER_DASHBOARD_API_KEY") != null ? ["stryker-dashboard"] : ["HTML"]
     timestampedReports = false
     mutationThreshold = 100
-    excludedClasses = ['io.github.mfvanek.pg.index.health.demo.config.*',
-                       'io.github.mfvanek.pg.index.health.demo.PgIndexHealthSpringBootDemoApplication']
-    excludedTestClasses = ['io.github.mfvanek.pg.index.health.demo.ActuatorEndpointTest']
+    excludedClasses = ["io.github.mfvanek.pg.index.health.demo.config.*",
+                       "io.github.mfvanek.pg.index.health.demo.PgIndexHealthSpringBootDemoApplication"]
+    excludedTestClasses = ["io.github.mfvanek.pg.index.health.demo.ActuatorEndpointTest"]
 }
 
-tasks.named('pitest').configure {
-    mustRunAfter test
+tasks.named("pitest").configure {
+    mustRunAfter(test)
 }
-build.dependsOn 'pitest'
+build {
+    dependsOn("pitest")
+}
