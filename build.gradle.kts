@@ -81,6 +81,10 @@ tasks.withType<JavaCompile>().configureEach {
     }
 }
 
+jacoco {
+    toolVersion = "0.8.10"
+}
+
 tasks {
     test {
         useJUnitPlatform()
@@ -102,7 +106,7 @@ tasks {
             html.required.set(true)
         }
     }
-    named<JacocoReport>("jacocoTestReport") {
+    withType<JacocoReport> {
         afterEvaluate {
             classDirectories.setFrom(files(classDirectories.files.map {
                 fileTree(it) {
