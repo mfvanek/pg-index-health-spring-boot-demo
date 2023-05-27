@@ -66,7 +66,7 @@ dependencies {
         testImplementation("io.netty:netty-all:4.1.92.Final")
     }
 
-    pitest("it.mulders.stryker:pit-dashboard-reporter:0.1.5")
+    pitest("it.mulders.stryker:pit-dashboard-reporter:0.2.1")
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
     errorprone("com.google.errorprone:error_prone_core:2.19.1")
 }
