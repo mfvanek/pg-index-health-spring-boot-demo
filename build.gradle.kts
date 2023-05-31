@@ -46,27 +46,30 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-security:$springdocVersion")
     implementation("org.liquibase:liquibase-core:4.22.0")
     runtimeOnly("org.postgresql:postgresql:$postgresqlVersion")
-    implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:1.18.1"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.18.1"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
     implementation("io.github.mfvanek:pg-index-health:$pgihVersion")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    testImplementation(enforcedPlatform("org.junit:junit-bom:5.9.3"))
+    testImplementation(platform("org.junit:junit-bom:5.9.3"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("io.github.mfvanek:pg-index-health-test-starter:$pgihVersion")
     testImplementation("org.apache.httpcomponents:httpclient:4.5.14")
     testImplementation("org.postgresql:postgresql:$postgresqlVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
+        because("required for pitest")
+    }
 
     // https://github.com/netty/netty/issues/11020
     if (osdetector.arch == "aarch_64") {
         testImplementation("io.netty:netty-all:4.1.93.Final")
     }
 
-    pitest("it.mulders.stryker:pit-dashboard-reporter:0.1.5")
+    pitest("it.mulders.stryker:pit-dashboard-reporter:0.2.1")
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
     errorprone("com.google.errorprone:error_prone_core:2.19.1")
 }
@@ -197,8 +200,8 @@ sonarqube {
 
 pitest {
     verbosity.set("DEFAULT")
-    junit5PluginVersion.set("1.1.2")
-    pitestVersion.set("1.10.4")
+    junit5PluginVersion.set("1.2.0")
+    pitestVersion.set("1.14.1")
     threads.set(4)
     if (System.getenv("STRYKER_DASHBOARD_API_KEY") != null) {
         outputFormats.set(setOf("stryker-dashboard"))
