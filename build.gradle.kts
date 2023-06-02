@@ -115,7 +115,7 @@ tasks {
         }
     }
     jacocoTestCoverageVerification {
-        dependsOn(test)
+        dependsOn(jacocoTestReport)
         violationRules {
             classDirectories.setFrom(jacocoTestReport.get().classDirectories)
             rule {
@@ -150,7 +150,7 @@ tasks {
     }
 
     check {
-        dependsOn(jacocoTestReport, jacocoTestCoverageVerification)
+        dependsOn(jacocoTestCoverageVerification)
     }
 }
 
