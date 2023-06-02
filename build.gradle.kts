@@ -32,24 +32,20 @@ configurations.configureEach {
     exclude("org.hamcrest")
 }
 
-val springdocVersion = "1.7.0"
-val pgihVersion = "0.9.3"
-val postgresqlVersion = "42.6.0"
-
 dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus:1.11.0")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springdoc:springdoc-openapi-ui:$springdocVersion")
-    implementation("org.springdoc:springdoc-openapi-security:$springdocVersion")
+    implementation(libs.springdoc.openapi.ui)
+    implementation(libs.springdoc.openapi.security)
     implementation("org.liquibase:liquibase-core:4.22.0")
-    runtimeOnly("org.postgresql:postgresql:$postgresqlVersion")
+    runtimeOnly(libs.postgresql)
     implementation(platform("org.testcontainers:testcontainers-bom:1.18.1"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
-    implementation("io.github.mfvanek:pg-index-health:$pgihVersion")
+    implementation(libs.pgIndexHealth.core)
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -57,9 +53,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("io.github.mfvanek:pg-index-health-test-starter:$pgihVersion")
+    testImplementation(libs.pgIndexHealth.testStarter)
     testImplementation("org.apache.httpcomponents:httpclient:4.5.14")
-    testImplementation("org.postgresql:postgresql:$postgresqlVersion")
+    testImplementation(libs.postgresql)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
         because("required for pitest")
     }
@@ -69,7 +65,7 @@ dependencies {
         testImplementation("io.netty:netty-all:4.1.93.Final")
     }
 
-    pitest("it.mulders.stryker:pit-dashboard-reporter:0.2.1")
+    pitest(libs.pitest.dashboard.reporter)
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
     errorprone("com.google.errorprone:error_prone_core:2.19.1")
 }
@@ -85,7 +81,7 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 jacoco {
-    toolVersion = "0.8.10"
+    toolVersion = libs.versions.jacoco.get()
 }
 
 tasks {
@@ -163,7 +159,7 @@ springBoot {
 }
 
 checkstyle {
-    toolVersion = "10.7.0"
+    toolVersion = libs.versions.checkstyle.get()
     configFile = file("config/checkstyle/checkstyle.xml")
     isIgnoreFailures = false
     maxWarnings = 0
@@ -184,8 +180,8 @@ tasks.withType<SpotBugsTask>().configureEach {
 }
 
 pmd {
+    toolVersion = libs.versions.pmd.get()
     isConsoleOutput = true
-    toolVersion = "6.54.0"
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = listOf()
 }
@@ -200,8 +196,8 @@ sonarqube {
 
 pitest {
     verbosity.set("DEFAULT")
-    junit5PluginVersion.set("1.2.0")
-    pitestVersion.set("1.14.1")
+    junit5PluginVersion.set(libs.versions.pitest.junit5Plugin.get())
+    pitestVersion.set(libs.versions.pitest.core.get())
     threads.set(4)
     if (System.getenv("STRYKER_DASHBOARD_API_KEY") != null) {
         outputFormats.set(setOf("stryker-dashboard"))
