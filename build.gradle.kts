@@ -42,7 +42,7 @@ dependencies {
     implementation(libs.springdoc.openapi.security)
     implementation("org.liquibase:liquibase-core:4.22.0")
     runtimeOnly(libs.postgresql)
-    implementation(platform("org.testcontainers:testcontainers-bom:1.18.1"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.18.3"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
     implementation(libs.pgIndexHealth.core)
