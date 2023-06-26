@@ -6,7 +6,7 @@ import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     id("java")
-    id("org.springframework.boot") version "2.7.12"
+    id("org.springframework.boot") version "3.1.1"
     id("io.spring.dependency-management") version "1.1.0"
     id("com.github.spotbugs") version "5.0.14"
     id("checkstyle")
