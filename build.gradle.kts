@@ -1,3 +1,4 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
@@ -6,22 +7,23 @@ import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     id("java")
-    id("org.springframework.boot") version "2.7.12"
-    id("io.spring.dependency-management") version "1.1.1"
+    id("org.springframework.boot") version "2.7.13"
+    id("io.spring.dependency-management") version "1.1.2"
     id("com.github.spotbugs") version "5.0.14"
     id("checkstyle")
     id("jacoco")
     id("pmd")
-    id("org.sonarqube") version "4.2.1.3168"
+    id("org.sonarqube") version "4.3.0.3225"
     id("info.solidsoft.pitest") version "1.9.11"
     id("io.freefair.lombok") version "8.1.0"
     id("com.google.osdetector") version "1.7.3"
     id("net.ltgt.errorprone") version "3.1.0"
     id("org.gradle.test-retry") version "1.5.3"
+    id("com.github.ben-manes.versions") version "0.47.0"
 }
 
 group = "io.github.mfvanek"
-version = "0.9.3-SNAPSHOT"
+version = "0.9.4-SNAPSHOT"
 
 repositories {
     mavenLocal()
@@ -49,12 +51,11 @@ dependencies {
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    testImplementation(platform("org.junit:junit-bom:5.9.3"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation(libs.pgIndexHealth.testStarter)
-    testImplementation("org.apache.httpcomponents:httpclient:4.5.14")
+    testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
     testImplementation(libs.postgresql)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
         because("required for pitest")
@@ -68,6 +69,14 @@ dependencies {
     pitest(libs.pitest.dashboard.reporter)
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
     errorprone("com.google.errorprone:error_prone_core:2.20.0")
+}
+
+dependencyManagement {
+    imports {
+        // Need use this instead of 'testImplementation(platform("org.junit:junit-bom:5.9.3"))'
+        // to update junit at runtime as well
+        mavenBom("org.junit:junit-bom:5.9.3")
+    }
 }
 
 java {
@@ -186,7 +195,7 @@ pmd {
     ruleSets = listOf()
 }
 
-sonarqube {
+sonar {
     properties {
         property("sonar.projectKey", "mfvanek_pg-index-health-spring-boot-demo")
         property("sonar.organization", "mfvanek")
@@ -215,4 +224,20 @@ tasks.withType<PitestTask>().configureEach {
 }
 tasks.build {
     dependsOn("pitest")
+}
+
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+    checkForGradleUpdate = true
+    gradleReleaseChannel = "current"
+    checkConstraints = true
+    rejectVersionIf {
+        isNonStable(candidate.version)
+    }
 }
