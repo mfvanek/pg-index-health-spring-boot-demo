@@ -75,7 +75,7 @@ dependencyManagement {
     imports {
         // Need use this instead of 'testImplementation(platform("org.junit:junit-bom:5.9.3"))'
         // to update junit at runtime as well
-        mavenBom("org.junit:junit-bom:5.9.3")
+        mavenBom("org.junit:junit-bom:5.10.0")
     }
 }
 
