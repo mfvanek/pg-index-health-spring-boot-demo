@@ -11,15 +11,11 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.MutablePropertySources;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
-import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 
@@ -39,11 +35,7 @@ public class DatabaseConfig {
     @Bean
     public DataSource dataSource(@Nonnull final JdbcDatabaseContainer<?> jdbcDatabaseContainer,
                                  @Nonnull final Environment environment) {
-        if (environment instanceof ConfigurableEnvironment configurableEnvironment) {
-            final MutablePropertySources mps = configurableEnvironment.getPropertySources();
-            mps.addFirst(new MapPropertySource("connectionString",
-                    Map.ofEntries(Map.entry("spring.datasource.url", jdbcDatabaseContainer.getJdbcUrl()))));
-        }
+        ConfigurableEnvironmentMutator.addDatasourceUrlIfNeed(jdbcDatabaseContainer, environment);
         final HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(jdbcDatabaseContainer.getJdbcUrl());
         hikariConfig.setUsername(jdbcDatabaseContainer.getUsername());

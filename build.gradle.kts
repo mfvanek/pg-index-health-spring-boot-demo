@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "io.github.mfvanek"
-version = "0.9.4-SNAPSHOT"
+version = "0.9.4"
 
 repositories {
     mavenLocal()
@@ -47,14 +47,14 @@ dependencies {
     implementation(platform("org.testcontainers:testcontainers-bom:1.18.3"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
-    implementation(libs.pgIndexHealth.core)
+    implementation(libs.pg.index.health.core)
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation(libs.pgIndexHealth.testStarter)
+    testImplementation(libs.pg.index.health.testStarter)
     testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
     testImplementation(libs.postgresql)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
