@@ -9,7 +9,7 @@ plugins {
     id("java")
     id("org.springframework.boot") version "2.7.14"
     id("io.spring.dependency-management") version "1.1.2"
-    id("com.github.spotbugs") version "5.1.1"
+    id("com.github.spotbugs") version "5.1.2"
     id("checkstyle")
     id("jacoco")
     id("pmd")
