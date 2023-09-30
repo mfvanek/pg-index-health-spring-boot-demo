@@ -10,7 +10,7 @@ dependencyResolutionManagement {
             library("pitest-dashboard-reporter", "it.mulders.stryker:pit-dashboard-reporter:0.2.1")
             version("pitest-junit5Plugin", "1.2.0")
             version("pitest-core", "1.14.1")
-            val pgIndexHealth = version("pg-index-health", "0.9.4")
+            val pgIndexHealth = version("pg-index-health", "0.9.5")
             library("pg-index-health-core", "io.github.mfvanek", "pg-index-health")
                     .versionRef(pgIndexHealth)
             library("pg-index-health-testStarter", "io.github.mfvanek", "pg-index-health-test-starter")
