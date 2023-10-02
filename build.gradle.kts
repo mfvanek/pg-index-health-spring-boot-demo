@@ -14,7 +14,7 @@ plugins {
     id("jacoco")
     id("pmd")
     id("org.sonarqube") version "4.4.0.3356"
-    id("info.solidsoft.pitest") version "1.9.11"
+    id("info.solidsoft.pitest") version "1.15.0"
     id("io.freefair.lombok") version "8.3"
     id("com.google.osdetector") version "1.7.3"
     id("net.ltgt.errorprone") version "3.1.0"
