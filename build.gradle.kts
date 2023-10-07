@@ -13,17 +13,17 @@ plugins {
     id("checkstyle")
     id("jacoco")
     id("pmd")
-    id("org.sonarqube") version "4.4.0.3356"
-    id("info.solidsoft.pitest") version "1.9.11"
+    id("org.sonarqube") version "4.4.1.3373"
+    id("info.solidsoft.pitest") version "1.15.0"
     id("io.freefair.lombok") version "8.3"
     id("com.google.osdetector") version "1.7.3"
     id("net.ltgt.errorprone") version "3.1.0"
-    id("org.gradle.test-retry") version "1.5.5"
+    id("org.gradle.test-retry") version "1.5.6"
     id("com.github.ben-manes.versions") version "0.48.0"
 }
 
 group = "io.github.mfvanek"
-version = "0.9.4"
+version = "0.9.5"
 
 repositories {
     mavenLocal()
@@ -42,9 +42,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation(libs.springdoc.openapi.ui)
     implementation(libs.springdoc.openapi.security)
-    implementation("org.liquibase:liquibase-core:4.23.2")
+    implementation("org.liquibase:liquibase-core:4.24.0")
     runtimeOnly(libs.postgresql)
-    implementation(platform("org.testcontainers:testcontainers-bom:1.19.0"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.19.1"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
     implementation(libs.pg.index.health.core)
@@ -57,9 +57,6 @@ dependencies {
     testImplementation(libs.pg.index.health.testStarter)
     testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
     testImplementation(libs.postgresql)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
-        because("required for pitest")
-    }
 
     // https://github.com/netty/netty/issues/11020
     if (osdetector.arch == "aarch_64") {
