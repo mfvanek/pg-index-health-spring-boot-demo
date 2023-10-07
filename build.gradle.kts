@@ -43,13 +43,16 @@ dependencies {
     implementation(libs.springdoc.openapi.ui)
     implementation(libs.springdoc.openapi.security)
     implementation("org.liquibase:liquibase-core:4.24.0")
-    runtimeOnly(libs.postgresql)
     implementation(platform("org.testcontainers:testcontainers-bom:1.19.1"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
     implementation(libs.pg.index.health.core)
     implementation("com.google.code.findbugs:jsr305:3.0.2")
+    implementation("com.github.blagerweij:liquibase-sessionlock:1.6.5")
+
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    runtimeOnly(libs.postgresql)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
