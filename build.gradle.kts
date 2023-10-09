@@ -48,7 +48,7 @@ dependencies {
     implementation("org.testcontainers:postgresql")
     implementation(libs.pg.index.health.core)
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("com.github.blagerweij:liquibase-sessionlock:1.6.5")
+    implementation("com.github.blagerweij:liquibase-sessionlock:1.6.6")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
