@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "io.github.mfvanek"
-version = "0.9.5"
+version = "0.10.0"
 
 repositories {
     mavenLocal()
@@ -69,6 +69,7 @@ dependencies {
     pitest(libs.pitest.dashboard.reporter)
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
     errorprone("com.google.errorprone:error_prone_core:2.22.0")
+    spotbugsSlf4j(rootProject.libs.slf4j.simple)
 }
 
 dependencyManagement {
