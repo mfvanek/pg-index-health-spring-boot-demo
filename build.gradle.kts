@@ -7,9 +7,9 @@ import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     id("java")
-    id("org.springframework.boot") version "2.7.16"
-    id("io.spring.dependency-management") version "1.1.3"
-    id("com.github.spotbugs") version "5.2.1"
+    id("org.springframework.boot") version "2.7.17"
+    id("io.spring.dependency-management") version "1.1.4"
+    id("com.github.spotbugs") version "5.2.3"
     id("checkstyle")
     id("jacoco")
     id("pmd")
@@ -19,11 +19,11 @@ plugins {
     id("com.google.osdetector") version "1.7.3"
     id("net.ltgt.errorprone") version "3.1.0"
     id("org.gradle.test-retry") version "1.5.6"
-    id("com.github.ben-manes.versions") version "0.49.0"
+    id("com.github.ben-manes.versions") version "0.50.0"
 }
 
 group = "io.github.mfvanek"
-version = "0.10.0"
+version = "0.10.1"
 
 repositories {
     mavenLocal()
@@ -34,6 +34,8 @@ configurations.configureEach {
     exclude("org.hamcrest")
 }
 
+ext["commons-lang3.version"] = "3.13.0"
+
 dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus:1.11.5")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -42,13 +44,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation(libs.springdoc.openapi.ui)
     implementation(libs.springdoc.openapi.security)
-    implementation("org.liquibase:liquibase-core:4.24.0")
-    implementation(platform("org.testcontainers:testcontainers-bom:1.19.1"))
+    implementation("org.liquibase:liquibase-core:4.25.0")
+    implementation(platform("org.testcontainers:testcontainers-bom:1.19.2"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
-    implementation(libs.pg.index.health.core)
+    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.10.1"))
+    implementation("io.github.mfvanek:pg-index-health")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("com.github.blagerweij:liquibase-sessionlock:1.6.7")
+    implementation("com.github.blagerweij:liquibase-sessionlock:1.6.9")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -57,7 +60,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation(libs.pg.index.health.testStarter)
+    testImplementation("io.github.mfvanek:pg-index-health-test-starter")
     testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
     testImplementation(libs.postgresql)
 
@@ -95,6 +98,10 @@ jacoco {
 }
 
 tasks {
+    wrapper {
+        gradleVersion = "8.4"
+    }
+
     test {
         useJUnitPlatform()
         dependsOn(checkstyleMain, checkstyleTest, pmdMain, pmdTest, spotbugsMain, spotbugsTest)
