@@ -61,7 +61,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("io.github.mfvanek:pg-index-health-test-starter")
-    testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
+    testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.2")
     testImplementation(libs.postgresql)
 
     // https://github.com/netty/netty/issues/11020
