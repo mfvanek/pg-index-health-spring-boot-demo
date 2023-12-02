@@ -7,9 +7,9 @@ import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     id("java")
-    id("org.springframework.boot") version "2.7.17"
+    id("org.springframework.boot") version "2.7.18"
     id("io.spring.dependency-management") version "1.1.4"
-    id("com.github.spotbugs") version "5.2.4"
+    id("com.github.spotbugs") version "5.2.5"
     id("checkstyle")
     id("jacoco")
     id("pmd")
@@ -18,12 +18,12 @@ plugins {
     id("io.freefair.lombok") version "8.4"
     id("com.google.osdetector") version "1.7.3"
     id("net.ltgt.errorprone") version "3.1.0"
-    id("org.gradle.test-retry") version "1.5.6"
+    id("org.gradle.test-retry") version "1.5.7"
     id("com.github.ben-manes.versions") version "0.50.0"
 }
 
 group = "io.github.mfvanek"
-version = "0.10.1"
+version = "0.10.2"
 
 repositories {
     mavenLocal()
@@ -48,7 +48,7 @@ dependencies {
     implementation(platform("org.testcontainers:testcontainers-bom:1.19.3"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
-    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.10.1"))
+    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.10.2"))
     implementation("io.github.mfvanek:pg-index-health")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.github.blagerweij:liquibase-sessionlock:1.6.9")
@@ -61,7 +61,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("io.github.mfvanek:pg-index-health-test-starter")
-    testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
+    testImplementation("org.apache.httpcomponents.client5:httpclient5")
     testImplementation(libs.postgresql)
 
     // https://github.com/netty/netty/issues/11020
@@ -80,14 +80,17 @@ dependencyManagement {
         // Need use this instead of 'testImplementation(platform("org.junit:junit-bom:5.9.3"))'
         // to update junit at runtime as well
         mavenBom("org.junit:junit-bom:5.10.1")
+        mavenBom("org.apache.httpcomponents.client5:httpclient5-parent:5.2.2")
     }
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.add("-parameters")
     options.errorprone {
         disableWarningsInGeneratedCode.set(true)
     }
@@ -99,7 +102,7 @@ jacoco {
 
 tasks {
     wrapper {
-        gradleVersion = "8.4"
+        gradleVersion = "8.5"
     }
 
     test {
