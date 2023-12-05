@@ -9,7 +9,7 @@ plugins {
     id("java")
     id("org.springframework.boot") version "2.7.18"
     id("io.spring.dependency-management") version "1.1.4"
-    id("com.github.spotbugs") version "5.2.5"
+    id("com.github.spotbugs") version "6.0.1"
     id("checkstyle")
     id("jacoco")
     id("pmd")
@@ -80,7 +80,7 @@ dependencyManagement {
         // Need use this instead of 'testImplementation(platform("org.junit:junit-bom:5.9.3"))'
         // to update junit at runtime as well
         mavenBom("org.junit:junit-bom:5.10.1")
-        mavenBom("org.apache.httpcomponents.client5:httpclient5-parent:5.2.2")
+        mavenBom("org.apache.httpcomponents.client5:httpclient5-parent:5.2.3")
     }
 }
 
