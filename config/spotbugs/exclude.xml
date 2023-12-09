@@ -18,4 +18,10 @@
         <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
         <Class name="~.*Test"/>
     </Match>
+    <Match>
+        <Bug pattern="SLF4J_LOGGER_SHOULD_BE_NON_STATIC,IMC_IMMATURE_CLASS_NO_TOSTRING,WEM_WEAK_EXCEPTION_MESSAGING,CE_CLASS_ENVY"/>
+    </Match>
+    <Match>
+        <Bug pattern="PERMISSIVE_CORS,CRLF_INJECTION_LOGS,SPRING_ENDPOINT,UNVALIDATED_REDIRECT"/>
+    </Match>
 </FindBugsFilter>

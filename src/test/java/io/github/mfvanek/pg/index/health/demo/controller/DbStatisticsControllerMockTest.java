@@ -27,7 +27,7 @@ class DbStatisticsControllerMockTest extends BasePgIndexHealthDemoSpringBootTest
     @ValueSource(booleans = {false, true})
     void shouldReturnErrorWhenResetStatisticsUnsuccessful(final boolean wait) {
         Mockito.when(databaseManagement.resetStatistics())
-                .thenReturn(false);
+                .thenReturn(Boolean.FALSE);
         final var result = webTestClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("db", "statistics", "reset")
