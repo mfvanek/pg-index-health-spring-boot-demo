@@ -86,7 +86,7 @@ dependencyManagement {
         // Need use this instead of 'testImplementation(platform("org.junit:junit-bom:5.9.3"))'
         // to update junit at runtime as well
         mavenBom("org.junit:junit-bom:5.10.1")
-        mavenBom("org.apache.httpcomponents.client5:httpclient5-parent:5.2.3")
+        mavenBom("org.apache.httpcomponents.client5:httpclient5-parent:5.3")
     }
 }
 
