@@ -72,7 +72,7 @@ dependencies {
     pitest(libs.pitest.dashboard.reporter)
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
 
-    errorprone("com.google.errorprone:error_prone_core:2.23.0")
+    errorprone("com.google.errorprone:error_prone_core:2.24.0")
     errorprone("jp.skypencil.errorprone.slf4j:errorprone-slf4j:0.1.21")
 
     spotbugsSlf4j(rootProject.libs.slf4j.simple)
