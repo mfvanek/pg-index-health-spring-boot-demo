@@ -4,7 +4,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             library("postgresql", "org.postgresql:postgresql:42.7.1")
-            version("checkstyle", "10.12.5")
+            version("checkstyle", "10.12.7")
             version("pmd", "6.55.0")
             version("jacoco", "0.8.11")
             library("pitest-dashboard-reporter", "it.mulders.stryker:pit-dashboard-reporter:0.2.1")
