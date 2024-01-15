@@ -37,7 +37,7 @@ configurations.configureEach {
 ext["commons-lang3.version"] = "3.13.0"
 
 dependencies {
-    implementation("io.micrometer:micrometer-registry-prometheus:1.12.1")
+    implementation("io.micrometer:micrometer-registry-prometheus:1.12.2")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-web")
