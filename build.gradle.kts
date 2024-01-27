@@ -9,7 +9,7 @@ plugins {
     id("java")
     id("org.springframework.boot") version "2.7.18"
     id("io.spring.dependency-management") version "1.1.4"
-    id("com.github.spotbugs") version "6.0.6"
+    id("com.github.spotbugs") version "6.0.7"
     id("checkstyle")
     id("jacoco")
     id("pmd")
@@ -19,11 +19,11 @@ plugins {
     id("com.google.osdetector") version "1.7.3"
     id("net.ltgt.errorprone") version "3.1.0"
     id("org.gradle.test-retry") version "1.5.8"
-    id("com.github.ben-manes.versions") version "0.50.0"
+    id("com.github.ben-manes.versions") version "0.51.0"
 }
 
 group = "io.github.mfvanek"
-version = "0.10.2"
+version = "0.10.3"
 
 repositories {
     mavenLocal()
@@ -45,10 +45,10 @@ dependencies {
     implementation(libs.springdoc.openapi.ui)
     implementation(libs.springdoc.openapi.security)
     implementation("org.liquibase:liquibase-core:4.25.1")
-    implementation(platform("org.testcontainers:testcontainers-bom:1.19.3"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.19.4"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
-    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.10.2"))
+    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.10.3"))
     implementation("io.github.mfvanek:pg-index-health")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.github.blagerweij:liquibase-sessionlock:1.6.9")
@@ -86,7 +86,7 @@ dependencyManagement {
         // Need use this instead of 'testImplementation(platform("org.junit:junit-bom:5.10.1"))'
         // to update junit at runtime as well
         mavenBom("org.junit:junit-bom:5.10.1")
-        mavenBom("org.apache.httpcomponents.client5:httpclient5-parent:5.3")
+        mavenBom("org.apache.httpcomponents.client5:httpclient5-parent:5.3.1")
     }
 }
 

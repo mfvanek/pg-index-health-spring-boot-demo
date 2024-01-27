@@ -72,7 +72,7 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     void checkPostgresVersion() {
         final String pgVersion = jdbcTemplate.queryForObject("select version();", String.class);
         assertThat(pgVersion)
-                .startsWith("PostgreSQL 16.0");
+                .startsWith("PostgreSQL 16.1");
     }
 
     @Test
