@@ -77,7 +77,7 @@ dependencies {
 
     spotbugsSlf4j(rootProject.libs.slf4j.simple)
     spotbugsPlugins("jp.skypencil.findbugs.slf4j:bug-pattern:1.5.0")
-    spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0")
+    spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.13.0")
     spotbugsPlugins("com.mebigfatguy.sb-contrib:sb-contrib:7.6.4")
 }
 
