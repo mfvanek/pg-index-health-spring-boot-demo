@@ -3,7 +3,7 @@ rootProject.name = "pg-index-health-spring-boot-demo"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            library("postgresql", "org.postgresql:postgresql:42.7.2")
+            library("postgresql", "org.postgresql:postgresql:42.7.3")
             version("checkstyle", "10.12.7")
             version("pmd", "6.55.0")
             version("jacoco", "0.8.11")
