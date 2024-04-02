@@ -44,7 +44,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation(libs.springdoc.openapi.ui)
     implementation(libs.springdoc.openapi.security)
-    implementation("org.liquibase:liquibase-core:4.26.0")
+    implementation("org.liquibase:liquibase-core:4.27.0")
     implementation(platform("org.testcontainers:testcontainers-bom:1.19.7"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
