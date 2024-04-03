@@ -69,13 +69,15 @@ dependencies {
         testImplementation("io.netty:netty-all:4.1.108.Final")
     }
 
-    pitest(libs.pitest.dashboard.reporter)
+    pitest("it.mulders.stryker:pit-dashboard-reporter:0.2.1")
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
 
     errorprone("com.google.errorprone:error_prone_core:2.26.1")
     errorprone("jp.skypencil.errorprone.slf4j:errorprone-slf4j:0.1.23")
 
-    spotbugsSlf4j(rootProject.libs.slf4j.simple)
+    spotbugsSlf4j("org.slf4j:slf4j-simple:1.7.36") {
+        because("to be compatible with Spring Boot 2.7.x")
+    }
     spotbugsPlugins("jp.skypencil.findbugs.slf4j:bug-pattern:1.5.0")
     spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.13.0")
     spotbugsPlugins("com.mebigfatguy.sb-contrib:sb-contrib:7.6.4")
@@ -104,7 +106,7 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 jacoco {
-    toolVersion = libs.versions.jacoco.get()
+    toolVersion = "0.8.12"
 }
 
 tasks {
@@ -186,7 +188,7 @@ springBoot {
 }
 
 checkstyle {
-    toolVersion = libs.versions.checkstyle.get()
+    toolVersion = "10.15.0"
     configFile = file("config/checkstyle/checkstyle.xml")
     isIgnoreFailures = false
     maxWarnings = 0
@@ -207,7 +209,7 @@ tasks.withType<SpotBugsTask>().configureEach {
 }
 
 pmd {
-    toolVersion = libs.versions.pmd.get()
+    toolVersion = "6.55.0"
     isConsoleOutput = true
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = listOf()
@@ -223,8 +225,8 @@ sonar {
 
 pitest {
     verbosity.set("DEFAULT")
-    junit5PluginVersion.set(libs.versions.pitest.junit5Plugin.get())
-    pitestVersion.set(libs.versions.pitest.core.get())
+    junit5PluginVersion.set("1.2.1")
+    pitestVersion.set("1.15.3")
     threads.set(4)
     if (System.getenv("STRYKER_DASHBOARD_API_KEY") != null) {
         outputFormats.set(setOf("stryker-dashboard"))
@@ -258,4 +260,8 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     rejectVersionIf {
         isNonStable(candidate.version)
     }
+}
+
+lombok {
+    version = "1.18.32"
 }
