@@ -17,7 +17,7 @@ class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void rootPageShouldRedirectToSwaggerUi() {
-        final var result = webTestClient.get()
+        final byte[] result = webTestClient.get()
                 .uri("/")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()

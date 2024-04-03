@@ -13,7 +13,13 @@
 
     <rule ref="category/java/bestpractices.xml/AbstractClassWithoutAbstractMethod">
         <properties>
-            <property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration['.*TestBase']"/>
+            <property name="violationSuppressXPath" value=".[@SimpleName = 'BasePgIndexHealthDemoSpringBootTest']"/>
+        </properties>
+    </rule>
+
+    <rule ref="category/java/bestpractices.xml/LooseCoupling">
+        <properties>
+            <property name="allowedTypes" value="org.springframework.http.HttpHeaders" />
         </properties>
     </rule>
 
@@ -40,7 +46,7 @@
         <properties>
             <property name="checkSetters" value="false"/>
             <property name="violationSuppressXPath"
-                      value="//ClassOrInterfaceBodyDeclaration/Annotation/MarkerAnnotation//Name[@Image='Test']"/>
+                      value=".[pmd-java:hasAnnotation('org.junit.jupiter.api.Test')] | .[pmd-java:hasAnnotation('org.junit.jupiter.params.ParameterizedTest')]"/>
         </properties>
     </rule>
 
@@ -57,12 +63,6 @@
         <exclude name="UseUtilityClass"/>
     </rule>
 
-    <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod">
-        <properties>
-            <property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration['.*TestBase']"/>
-        </properties>
-    </rule>
-
     <rule ref="category/java/documentation.xml">
         <exclude name="CommentRequired"/>
         <exclude name="CommentSize"/>
@@ -74,7 +74,5 @@
 
     <rule ref="category/java/security.xml"/>
 
-    <rule ref="category/java/errorprone.xml">
-        <exclude name="DataflowAnomalyAnalysis"/>
-    </rule>
+    <rule ref="category/java/errorprone.xml"/>
 </ruleset>

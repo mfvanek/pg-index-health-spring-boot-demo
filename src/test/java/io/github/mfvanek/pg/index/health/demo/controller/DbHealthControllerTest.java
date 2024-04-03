@@ -17,7 +17,7 @@ class DbHealthControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void collectHealthDataShouldReturnOk() {
-        final var result = webTestClient.get()
+        final String[] result = webTestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("db", "health")
                         .build())
