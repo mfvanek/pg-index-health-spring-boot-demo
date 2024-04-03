@@ -24,8 +24,8 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
 
     @Test
     void getLastResetDateShouldNotReturnNull(@Nonnull final CapturedOutput output) {
-        final var startTestTimestamp = OffsetDateTime.now(clock);
-        final var result = webTestClient.get()
+        final OffsetDateTime startTestTimestamp = OffsetDateTime.now(clock);
+        final OffsetDateTime result = webTestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("db", "statistics", "reset")
                         .build())
@@ -45,7 +45,7 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     @Test
     void doResetWithoutWaitShouldReturnAccepted(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
-        final var result = webTestClient.post()
+        final OffsetDateTime result = webTestClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("db", "statistics", "reset")
                         .build())
@@ -69,7 +69,7 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     @Test
     void doResetWithWaitShouldReturnOk(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
-        final var result = webTestClient.post()
+        final OffsetDateTime result = webTestClient.post()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("db", "statistics", "reset")
                         .build())

@@ -19,7 +19,7 @@ class DbConfigurationControllerTest extends BasePgIndexHealthDemoSpringBootTest 
 
     @Test
     void getParamsWithDefaultValuesShouldReturnOk() {
-        final var result = webTestClient.get()
+        final PgParam[] result = webTestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .pathSegment("db", "configuration")
                         .build())
