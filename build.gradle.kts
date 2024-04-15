@@ -75,7 +75,7 @@ dependencies {
     errorprone("com.google.errorprone:error_prone_core:2.26.1")
     errorprone("jp.skypencil.errorprone.slf4j:errorprone-slf4j:0.1.23")
 
-    spotbugsSlf4j("org.slf4j:slf4j-simple:1.7.36") {
+    spotbugsSlf4j("org.slf4j:slf4j-simple:2.0.13") {
         because("to be compatible with Spring Boot 2.7.x")
     }
     spotbugsPlugins("jp.skypencil.findbugs.slf4j:bug-pattern:1.5.0")
