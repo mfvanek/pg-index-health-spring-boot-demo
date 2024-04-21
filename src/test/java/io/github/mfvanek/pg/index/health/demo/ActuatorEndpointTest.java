@@ -92,5 +92,18 @@ class ActuatorEndpointTest extends BasePgIndexHealthDemoSpringBootTest {
                 .getResponseBody();
         assertThat(result)
                 .isEqualTo("{\"status\":\"UP\"}");
+
+        final String metricsResult = actuatorClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("prometheus")
+                        .build())
+                .accept(MediaType.valueOf("text/plain"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
+        assertThat(metricsResult)
+                .contains("http_server_requests_seconds_bucket");
     }
 }
