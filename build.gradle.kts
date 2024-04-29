@@ -72,7 +72,7 @@ dependencies {
     pitest("it.mulders.stryker:pit-dashboard-reporter:0.2.1")
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
 
-    errorprone("com.google.errorprone:error_prone_core:2.26.1")
+    errorprone("com.google.errorprone:error_prone_core:2.27.0")
     errorprone("jp.skypencil.errorprone.slf4j:errorprone-slf4j:0.1.23")
 
     spotbugsSlf4j("org.slf4j:slf4j-simple:1.7.36") {
