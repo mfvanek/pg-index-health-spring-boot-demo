@@ -8,8 +8,8 @@ import net.ltgt.gradle.errorprone.errorprone
 plugins {
     id("java")
     id("org.springframework.boot") version "2.7.18"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("com.github.spotbugs") version "6.0.12"
+    id("io.spring.dependency-management") version "1.1.5"
+    id("com.github.spotbugs") version "6.0.13"
     id("checkstyle")
     id("jacoco")
     id("pmd")
@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "io.github.mfvanek"
-version = "0.10.3"
+version = "0.11.0"
 
 repositories {
     mavenLocal()
@@ -48,7 +48,7 @@ dependencies {
     implementation(platform("org.testcontainers:testcontainers-bom:1.19.7"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
-    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.10.3"))
+    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.11.0"))
     implementation("io.github.mfvanek:pg-index-health")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.github.blagerweij:liquibase-sessionlock:1.6.9")
@@ -72,8 +72,8 @@ dependencies {
     pitest("it.mulders.stryker:pit-dashboard-reporter:0.2.1")
     checkstyle("com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1")
 
-    errorprone("com.google.errorprone:error_prone_core:2.27.0")
-    errorprone("jp.skypencil.errorprone.slf4j:errorprone-slf4j:0.1.23")
+    errorprone("com.google.errorprone:error_prone_core:2.27.1")
+    errorprone("jp.skypencil.errorprone.slf4j:errorprone-slf4j:0.1.24")
 
     spotbugsSlf4j("org.slf4j:slf4j-simple:1.7.36") {
         because("to be compatible with Spring Boot 2.7.x")
@@ -209,7 +209,7 @@ tasks.withType<SpotBugsTask>().configureEach {
 }
 
 pmd {
-    toolVersion = "7.0.0"
+    toolVersion = "7.1.0"
     isConsoleOutput = true
     ruleSetFiles = files("config/pmd/pmd.xml")
     ruleSets = listOf()
