@@ -7,15 +7,18 @@
 
 package io.github.mfvanek.pg.index.health.demo;
 
+import io.github.mfvanek.pg.checks.host.BtreeIndexesOnArrayColumnsCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ColumnsWithJsonTypeCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ColumnsWithSerialTypesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ColumnsWithoutDescriptionCheckOnHost;
 import io.github.mfvanek.pg.checks.host.DuplicatedIndexesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.ForeignKeysNotCoveredWithIndexCheckOnHost;
 import io.github.mfvanek.pg.checks.host.FunctionsWithoutDescriptionCheckOnHost;
+import io.github.mfvanek.pg.checks.host.IndexesWithBooleanCheckOnHost;
 import io.github.mfvanek.pg.checks.host.IndexesWithNullValuesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.IntersectedIndexesCheckOnHost;
 import io.github.mfvanek.pg.checks.host.InvalidIndexesCheckOnHost;
+import io.github.mfvanek.pg.checks.host.NotValidConstraintsCheckOnHost;
 import io.github.mfvanek.pg.checks.host.TablesWithoutDescriptionCheckOnHost;
 import io.github.mfvanek.pg.checks.host.TablesWithoutPrimaryKeyCheckOnHost;
 import io.github.mfvanek.pg.index.health.demo.utils.BasePgIndexHealthDemoSpringBootTest;
@@ -36,7 +39,7 @@ import javax.annotation.Nonnull;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "checkstyle:ClassFanOutComplexity"})
 class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
 
     private static final String BUYER_TABLE = "demo.buyer";
@@ -66,6 +69,12 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     private ColumnsWithSerialTypesCheckOnHost columnsWithSerialTypesCheck;
     @Autowired
     private FunctionsWithoutDescriptionCheckOnHost functionsWithoutDescriptionCheck;
+    @Autowired
+    private IndexesWithBooleanCheckOnHost indexesWithBooleanCheck;
+    @Autowired
+    private NotValidConstraintsCheckOnHost notValidConstraintsCheck;
+    @Autowired
+    private BtreeIndexesOnArrayColumnsCheckOnHost btreeIndexesOnArrayColumnsCheck;
 
     @Test
     @DisplayName("Always check PostgreSQL version in your tests")
@@ -218,6 +227,27 @@ class IndexesMaintenanceTest extends BasePgIndexHealthDemoSpringBootTest {
     @ValueSource(strings = {"public", "demo"})
     void getFunctionsWithoutDescriptionShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
         assertThat(functionsWithoutDescriptionCheck.check(PgContext.of(schemaName)))
+                .isEmpty();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"public", "demo"})
+    void indexesWithBooleanShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
+        assertThat(indexesWithBooleanCheck.check(PgContext.of(schemaName)))
+                .isEmpty();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"public", "demo"})
+    void notValidConstraintsShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
+        assertThat(notValidConstraintsCheck.check(PgContext.of(schemaName)))
+                .isEmpty();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"public", "demo"})
+    void btreeIndexesOnArrayColumnsShouldReturnNothingForAllSchemas(@Nonnull final String schemaName) {
+        assertThat(btreeIndexesOnArrayColumnsCheck.check(PgContext.of(schemaName)))
                 .isEmpty();
     }
 }
