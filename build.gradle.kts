@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.springdoc.openapi.ui)
     implementation(libs.springdoc.openapi.security)
     implementation("org.liquibase:liquibase-core:4.27.0")
-    implementation(platform("org.testcontainers:testcontainers-bom:1.19.7"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.19.8"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
     implementation(platform("io.github.mfvanek:pg-index-health-bom:0.11.0"))
