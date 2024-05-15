@@ -26,67 +26,67 @@ class DbStatisticsControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     void getLastResetDateShouldNotReturnNull(@Nonnull final CapturedOutput output) {
         final OffsetDateTime startTestTimestamp = OffsetDateTime.now(clock);
         final OffsetDateTime result = webTestClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("db", "statistics", "reset")
-                        .build())
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(OffsetDateTime.class)
-                .returnResult()
-                .getResponseBody();
+            .uri(uriBuilder -> uriBuilder
+                .pathSegment("db", "statistics", "reset")
+                .build())
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(OffsetDateTime.class)
+            .returnResult()
+            .getResponseBody();
         assertThat(result)
-                .isBefore(startTestTimestamp);
+            .isBefore(startTestTimestamp);
         assertThat(output.getOut())
-                .as("waitForStatisticsCollector should not be called")
-                .doesNotContain("vacuum analyze");
+            .as("waitForStatisticsCollector should not be called")
+            .doesNotContain("vacuum analyze");
     }
 
     @Test
     void doResetWithoutWaitShouldReturnAccepted(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
         final OffsetDateTime result = webTestClient.post()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("db", "statistics", "reset")
-                        .build())
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(Boolean.FALSE)
-                .exchange()
-                .expectStatus().isAccepted()
-                .expectBody(OffsetDateTime.class)
-                .returnResult()
-                .getResponseBody();
+            .uri(uriBuilder -> uriBuilder
+                .pathSegment("db", "statistics", "reset")
+                .build())
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(Boolean.FALSE)
+            .exchange()
+            .expectStatus().isAccepted()
+            .expectBody(OffsetDateTime.class)
+            .returnResult()
+            .getResponseBody();
         final long executionTime = System.nanoTime() - startTime;
         assertThat(result)
-                .isNotNull();
+            .isNotNull();
         assertThat(executionTime / 1_000_000L)
-                .isLessThan(1_000L); // less than 1000ms
+            .isLessThan(1_000L); // less than 1000ms
         assertThat(output.getOut())
-                .as("waitForStatisticsCollector should not be called")
-                .doesNotContain("vacuum analyze");
+            .as("waitForStatisticsCollector should not be called")
+            .doesNotContain("vacuum analyze");
     }
 
     @Test
     void doResetWithWaitShouldReturnOk(@Nonnull final CapturedOutput output) {
         final long startTime = System.nanoTime();
         final OffsetDateTime result = webTestClient.post()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("db", "statistics", "reset")
-                        .build())
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(Boolean.TRUE)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(OffsetDateTime.class)
-                .returnResult()
-                .getResponseBody();
+            .uri(uriBuilder -> uriBuilder
+                .pathSegment("db", "statistics", "reset")
+                .build())
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(Boolean.TRUE)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(OffsetDateTime.class)
+            .returnResult()
+            .getResponseBody();
         final long executionTime = System.nanoTime() - startTime;
         assertThat(result)
-                .isNotNull();
+            .isNotNull();
         assertThat(executionTime / 1_000_000L)
-                .isGreaterThanOrEqualTo(1_000L); // >= 1000ms
+            .isGreaterThanOrEqualTo(1_000L); // >= 1000ms
         assertThat(output.getOut())
-                .as("waitForStatisticsCollector should be called")
-                .contains("vacuum analyze");
+            .as("waitForStatisticsCollector should be called")
+            .contains("vacuum analyze");
     }
 }

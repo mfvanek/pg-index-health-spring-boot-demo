@@ -25,7 +25,7 @@ class ConfigurableEnvironmentMutator {
     static boolean addDatasourceUrlIfNeed(@Nonnull final JdbcDatabaseContainer<?> jdbcDatabaseContainer,
                                           @Nonnull final Environment environment) {
         if (environment.getProperty(DATASOURCE_URL_PROP_NAME) == null &&
-                environment instanceof ConfigurableEnvironment configurableEnvironment) {
+            environment instanceof ConfigurableEnvironment configurableEnvironment) {
             final MutablePropertySources mps = configurableEnvironment.getPropertySources();
             mps.addFirst(new MapPropertySource("connectionString",
                 Map.ofEntries(Map.entry(DATASOURCE_URL_PROP_NAME, jdbcDatabaseContainer.getJdbcUrl()))));

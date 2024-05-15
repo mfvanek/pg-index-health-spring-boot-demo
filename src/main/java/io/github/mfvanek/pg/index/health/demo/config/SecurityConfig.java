@@ -25,8 +25,8 @@ public class SecurityConfig {
     @SneakyThrows
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) {
         httpSecurity.requestMatcher(EndpointRequest.toAnyEndpoint())
-                .authorizeRequests(requests -> requests.anyRequest().authenticated())
-                .httpBasic();
+            .authorizeRequests(requests -> requests.anyRequest().authenticated())
+            .httpBasic();
         return httpSecurity.build();
     }
 

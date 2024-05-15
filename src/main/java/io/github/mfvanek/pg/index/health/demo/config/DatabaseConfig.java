@@ -26,10 +26,10 @@ public class DatabaseConfig {
     @Bean(initMethod = "start", destroyMethod = "stop")
     public JdbcDatabaseContainer<?> jdbcDatabaseContainer() {
         return new PostgreSQLContainer<>("postgres:16.2")
-                .withDatabaseName("demo_for_pg_index_health")
-                .withUsername("demo_user")
-                .withPassword("myUniquePassword")
-                .waitingFor(Wait.forListeningPort());
+            .withDatabaseName("demo_for_pg_index_health")
+            .withUsername("demo_user")
+            .withPassword("myUniquePassword")
+            .waitingFor(Wait.forListeningPort());
     }
 
     @Bean

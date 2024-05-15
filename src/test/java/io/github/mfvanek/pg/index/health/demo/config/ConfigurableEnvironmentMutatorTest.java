@@ -26,7 +26,7 @@ class ConfigurableEnvironmentMutatorTest {
         environment.setProperty(DATASOURCE_URL_PROP_NAME, "url");
 
         assertThat(ConfigurableEnvironmentMutator.addDatasourceUrlIfNeed(jdbcDatabaseContainer, environment))
-                .isFalse();
+            .isFalse();
         assertThat(environment.getProperty(DATASOURCE_URL_PROP_NAME)).isEqualTo("url");
     }
 
@@ -36,7 +36,7 @@ class ConfigurableEnvironmentMutatorTest {
         Mockito.when(environment.getProperty(Mockito.anyString())).thenReturn(null);
 
         assertThat(ConfigurableEnvironmentMutator.addDatasourceUrlIfNeed(jdbcDatabaseContainer, environment))
-                .isFalse();
+            .isFalse();
         assertThat(environment.getProperty(DATASOURCE_URL_PROP_NAME)).isNull();
     }
 
@@ -46,7 +46,7 @@ class ConfigurableEnvironmentMutatorTest {
         Mockito.when(jdbcDatabaseContainer.getJdbcUrl()).thenReturn("added_url");
 
         assertThat(ConfigurableEnvironmentMutator.addDatasourceUrlIfNeed(jdbcDatabaseContainer, environment))
-                .isTrue();
+            .isTrue();
         assertThat(environment.getProperty(DATASOURCE_URL_PROP_NAME)).isEqualTo("added_url");
     }
 }

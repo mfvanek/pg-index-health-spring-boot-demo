@@ -29,10 +29,10 @@ public class DbConfigurationController {
     @GetMapping
     public ResponseEntity<Collection<PgParam>> getParamsWithDefaultValues() {
         final ServerSpecification serverSpecification = ServerSpecification.builder()
-                .withCpuCores(Runtime.getRuntime().availableProcessors())
-                .withMemoryAmount(8, MemoryUnit.GB)
-                .withSSD()
-                .build();
+            .withCpuCores(Runtime.getRuntime().availableProcessors())
+            .withMemoryAmount(8, MemoryUnit.GB)
+            .withSSD()
+            .build();
         return ResponseEntity.ok(databaseManagement.getParamsWithDefaultValues(serverSpecification));
     }
 }
