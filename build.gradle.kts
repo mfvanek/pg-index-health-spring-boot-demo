@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "io.github.mfvanek"
-version = "0.11.0"
+version = "0.11.1"
 
 repositories {
     mavenLocal()
@@ -48,7 +48,7 @@ dependencies {
     implementation(platform("org.testcontainers:testcontainers-bom:1.19.8"))
     implementation("org.testcontainers:testcontainers")
     implementation("org.testcontainers:postgresql")
-    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.11.0"))
+    implementation(platform("io.github.mfvanek:pg-index-health-bom:0.11.1"))
     implementation("io.github.mfvanek:pg-index-health")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.github.blagerweij:liquibase-sessionlock:1.6.9")
@@ -188,7 +188,7 @@ springBoot {
 }
 
 checkstyle {
-    toolVersion = "10.15.0"
+    toolVersion = "10.16.0"
     configFile = file("config/checkstyle/checkstyle.xml")
     isIgnoreFailures = false
     maxWarnings = 0
@@ -226,7 +226,7 @@ sonar {
 pitest {
     verbosity.set("DEFAULT")
     junit5PluginVersion.set("1.2.1")
-    pitestVersion.set("1.15.3")
+    pitestVersion.set("1.15.8")
     threads.set(4)
     if (System.getenv("STRYKER_DASHBOARD_API_KEY") != null) {
         outputFormats.set(setOf("stryker-dashboard"))

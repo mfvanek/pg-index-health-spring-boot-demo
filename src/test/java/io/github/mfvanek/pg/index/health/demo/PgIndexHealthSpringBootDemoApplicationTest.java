@@ -24,12 +24,12 @@ class PgIndexHealthSpringBootDemoApplicationTest extends BasePgIndexHealthDemoSp
     @Test
     void contextLoads() {
         assertThat(context.getEnvironment().containsProperty("spring.datasource.url"))
-                .isTrue();
+            .isTrue();
         assertThat(context.getBean("highAvailabilityPgConnection"))
-                .isNotNull()
-                .isInstanceOf(HighAvailabilityPgConnection.class);
+            .isNotNull()
+            .isInstanceOf(HighAvailabilityPgConnection.class);
         assertThat(context.getBean("corsConfigurer"))
-                .isNotNull()
-                .isInstanceOf(WebMvcConfigurer.class);
+            .isNotNull()
+            .isInstanceOf(WebMvcConfigurer.class);
     }
 }

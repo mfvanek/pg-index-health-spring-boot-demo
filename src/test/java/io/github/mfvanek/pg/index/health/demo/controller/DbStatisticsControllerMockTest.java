@@ -27,20 +27,20 @@ class DbStatisticsControllerMockTest extends BasePgIndexHealthDemoSpringBootTest
     @ValueSource(booleans = {false, true})
     void shouldReturnErrorWhenResetStatisticsUnsuccessful(final boolean wait) {
         Mockito.when(databaseManagement.resetStatistics())
-                .thenReturn(Boolean.FALSE);
+            .thenReturn(Boolean.FALSE);
         final Object result = webTestClient.post()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment("db", "statistics", "reset")
-                        .build())
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(wait)
-                .exchange()
-                .expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
-                .expectBody(Object.class)
-                .returnResult()
-                .getResponseBody();
+            .uri(uriBuilder -> uriBuilder
+                .pathSegment("db", "statistics", "reset")
+                .build())
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(wait)
+            .exchange()
+            .expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
+            .expectBody(Object.class)
+            .returnResult()
+            .getResponseBody();
         assertThat(result)
-                .isNotNull()
-                .satisfies(b -> assertThat(b.toString()).contains("Internal Server Error"));
+            .isNotNull()
+            .satisfies(b -> assertThat(b.toString()).contains("Internal Server Error"));
     }
 }

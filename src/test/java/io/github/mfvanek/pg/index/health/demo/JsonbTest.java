@@ -29,19 +29,19 @@ class JsonbTest extends BasePgIndexHealthDemoSpringBootTest {
     @Test
     void readingAndWritingJsonb() {
         final List<Payment> payments = jdbcTemplate.query("select * from demo.payment order by id limit 10", (rs, rowNum) ->
-                Payment.builder()
-                        .paymentId(rs.getLong("id"))
-                        .orderId(rs.getLong("order_id"))
-                        .status(rs.getInt("status"))
-                        .createdAt(rs.getObject("created_at", LocalDateTime.class))
-                        .paymentTotal(rs.getBigDecimal("payment_total"))
-                        .info(rs.getString("info"))
-                        .build());
+            Payment.builder()
+                .paymentId(rs.getLong("id"))
+                .orderId(rs.getLong("order_id"))
+                .status(rs.getInt("status"))
+                .createdAt(rs.getObject("created_at", LocalDateTime.class))
+                .paymentTotal(rs.getBigDecimal("payment_total"))
+                .info(rs.getString("info"))
+                .build());
         assertThat(payments)
-                .hasSize(10)
-                .flatExtracting(Payment::getInfo)
-                .allSatisfy(info -> assertThat(info)
-                        .isEqualTo("{\" payment\": {\"date\": \"2022-05-27T18:31:42\", \"result\": \"success\"}}"));
+            .hasSize(10)
+            .flatExtracting(Payment::getInfo)
+            .allSatisfy(info -> assertThat(info)
+                .isEqualTo("{\" payment\": {\"date\": \"2022-05-27T18:31:42\", \"result\": \"success\"}}"));
         payments.forEach(this::checkThatJsonbCanBeSavedToDatabase);
     }
 
@@ -49,14 +49,14 @@ class JsonbTest extends BasePgIndexHealthDemoSpringBootTest {
     private void checkThatJsonbCanBeSavedToDatabase(@Nonnull final Payment payment) {
         final String withoutWhitespaces = StringUtils.deleteWhitespace(payment.getInfo());
         assertThat(withoutWhitespaces)
-                .isEqualTo("{\"payment\":{\"date\":\"2022-05-27T18:31:42\",\"result\":\"success\"}}");
+            .isEqualTo("{\"payment\":{\"date\":\"2022-05-27T18:31:42\",\"result\":\"success\"}}");
         final PGobject fixedInfoObject = new PGobject();
         fixedInfoObject.setType("jsonb");
         fixedInfoObject.setValue(withoutWhitespaces);
         final int count = jdbcTemplate.update("update demo.payment set info = ?::jsonb where id = ?::bigint",
-                fixedInfoObject, payment.getPaymentId());
+            fixedInfoObject, payment.getPaymentId());
         assertThat(count)
-                .isEqualTo(1);
+            .isEqualTo(1);
     }
 
     @Getter

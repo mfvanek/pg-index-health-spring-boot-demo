@@ -32,7 +32,7 @@ public class DatabaseStructureHealthConfig {
     @Bean
     public ConnectionCredentials connectionCredentials(@Nonnull final JdbcDatabaseContainer<?> jdbcDatabaseContainer) {
         return ConnectionCredentials.ofUrl(jdbcDatabaseContainer.getJdbcUrl(),
-                jdbcDatabaseContainer.getUsername(), jdbcDatabaseContainer.getPassword());
+            jdbcDatabaseContainer.getUsername(), jdbcDatabaseContainer.getPassword());
     }
 
     @Bean
@@ -48,15 +48,15 @@ public class DatabaseStructureHealthConfig {
 
     @Bean
     public HighAvailabilityPgConnection highAvailabilityPgConnection(
-            @Nonnull final ConnectionCredentials connectionCredentials,
-            @Nonnull final HighAvailabilityPgConnectionFactory highAvailabilityPgConnectionFactory) {
+        @Nonnull final ConnectionCredentials connectionCredentials,
+        @Nonnull final HighAvailabilityPgConnectionFactory highAvailabilityPgConnectionFactory) {
         return highAvailabilityPgConnectionFactory.of(connectionCredentials);
     }
 
     @Bean
     public DatabaseManagement databaseManagement(@Nonnull final HighAvailabilityPgConnection highAvailabilityPgConnection) {
         return new DatabaseManagementImpl(highAvailabilityPgConnection,
-                StatisticsMaintenanceOnHostImpl::new,
-                ConfigurationMaintenanceOnHostImpl::new);
+            StatisticsMaintenanceOnHostImpl::new,
+            ConfigurationMaintenanceOnHostImpl::new);
     }
 }

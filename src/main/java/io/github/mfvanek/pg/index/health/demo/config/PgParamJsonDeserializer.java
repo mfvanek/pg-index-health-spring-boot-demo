@@ -23,7 +23,7 @@ public class PgParamJsonDeserializer extends JsonDeserializer<PgParam> {
 
     @Override
     public PgParam deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
-            throws IOException {
+        throws IOException {
         final TreeNode treeNode = jsonParser.getCodec().readTree(jsonParser);
         final TextNode name = (TextNode) treeNode.get("name");
         final TextNode value = (TextNode) treeNode.get("value");

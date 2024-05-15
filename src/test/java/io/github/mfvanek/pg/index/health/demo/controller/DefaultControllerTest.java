@@ -18,15 +18,15 @@ class DefaultControllerTest extends BasePgIndexHealthDemoSpringBootTest {
     @Test
     void rootPageShouldRedirectToSwaggerUi() {
         final byte[] result = webTestClient.get()
-                .uri("/")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isFound()
-                .expectHeader().location(String.format("http://localhost:%d/actuator/swaggerui", port))
-                .expectBody()
-                .returnResult()
-                .getResponseBody();
+            .uri("/")
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isFound()
+            .expectHeader().location(String.format("http://localhost:%d/actuator/swaggerui", port))
+            .expectBody()
+            .returnResult()
+            .getResponseBody();
         assertThat(result)
-                .isNull();
+            .isNull();
     }
 }
