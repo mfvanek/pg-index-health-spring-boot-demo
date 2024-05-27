@@ -1,4 +1,11 @@
 # pg-index-health-spring-boot-demo
+
+---
+
+### All codebase moved to the [main repository](https://github.com/mfvanek/pg-index-health-demo).
+
+---
+
 Demo app for [pg-index-health library](https://github.com/mfvanek/pg-index-health) (with Spring and Spring Boot).  
 See also [pg-index-health-test-starter](https://github.com/mfvanek/pg-index-health-test-starter) project.
 
